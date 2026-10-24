@@ -69,11 +69,20 @@ scripts/                 contrast.mjs, audit.mjs, og.mjs
 
 ## Deploying
 
-Static output in `dist/`. Vercel and Cloudflare Pages both detect Astro; build command
-`npm run build`, output directory `dist`. Point `corridorfinance.tech` at it.
+Hosted on **GitHub Pages**, from this repository.
 
-Set `PUBLIC_WAITLIST_ENDPOINT` to switch the Ramp multichain waitlist form on. Without it the
-form stays off and points people at the contact address instead. See `.env.example`.
+`.github/workflows/deploy.yml` builds and publishes on every push to `main`. The build step runs
+`npm run verify` rather than a bare `astro build`, so the contrast check, the type check and the
+link/status audit all gate a deploy: a badge that overstates where something runs fails CI
+instead of shipping.
+
+`public/CNAME` holds the custom domain, so Pages keeps `corridorfinance.tech` across deploys.
+Deleting that file would drop the domain on the next publish.
+
+The waitlist form posts to `PUBLIC_WAITLIST_ENDPOINT`, which is read at **build** time. Pages
+has no runtime environment variables, so set it as a repository variable or secret and pass it
+into the build step in the workflow. Without it the form stays off and points people at the
+contact address. See `.env.example`.
 
 ## Before it goes live
 

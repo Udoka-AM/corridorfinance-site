@@ -13,7 +13,7 @@
  */
 import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
 import { join, dirname, relative } from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { fileURLToPath } from 'node:url';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const dist = join(root, '..', 'dist');
@@ -23,16 +23,17 @@ if (!existsSync(dist)) {
   process.exit(1);
 }
 
-const { LINKS } = await import(pathToFileURL(join(root, '..', 'src', 'config', 'links.ts')).href)
-  .catch(async () => {
-    // links.ts is TypeScript; read the URLs out of the source instead of
-    // importing it, so the audit needs no transpile step.
-    const src = readFileSync(join(root, '..', 'src', 'config', 'links.ts'), 'utf8');
-    const hrefs = [...src.matchAll(/href:\s*'([^']+)'/g)].map((m) => m[1]);
-    return { LINKS: Object.fromEntries(hrefs.map((h, i) => [i, { href: h }])) };
-  });
+/* links.ts is TypeScript. Read the URLs out of the source rather than
+   importing it, so this runs on any Node version without a transpile step. */
+const linksSrc = readFileSync(join(root, '..', 'src', 'config', 'links.ts'), 'utf8');
+const configuredHrefs = [...linksSrc.matchAll(/href:\s*'([^']+)'/g)].map((m) => m[1]);
 
-const allowed = new Set(Object.values(LINKS).map((l) => l.href));
+if (configuredHrefs.length === 0) {
+  console.error('Read no hrefs out of src/config/links.ts; the audit would pass vacuously.');
+  process.exit(1);
+}
+
+const allowed = new Set(configuredHrefs);
 /* Astro's own output and the sitemap are not page content. */
 allowed.add('https://corridorfinance.tech');
 
