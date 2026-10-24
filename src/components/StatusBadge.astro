@@ -1,0 +1,96 @@
+---
+import { STATUS, type StatusId } from '../config/links';
+
+interface Props {
+  status: StatusId;
+  /** Extra qualifier, e.g. "Tempo deployment". */
+  note?: string;
+  class?: string;
+}
+
+const { status, note, class: cls = '' } = Astro.props;
+const s = STATUS[status];
+---
+
+{
+  status !== 'none' && (
+    <span class={`badge badge--${s.variant} ${cls}`}>
+      <span class="badge__dot" aria-hidden="true" />
+      {s.label}
+      {note && <span class="badge__note">({note})</span>}
+    </span>
+  )
+}
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    padding: 5px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+    border: 1px solid transparent;
+  }
+
+  .badge__dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: currentColor;
+    flex: none;
+  }
+
+  .badge__note {
+    opacity: 0.75;
+  }
+
+  /* Live: solid accent. The only status that gets to shout. */
+  .badge--solid {
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-color: var(--accent);
+  }
+
+  .badge--solid .badge__dot {
+    animation: pulse 2.4s var(--ease) infinite;
+  }
+
+  /* Testnet: outlined neutral, with an amber tick so it still reads as
+     "running, just not on mainnet". */
+  .badge--outline {
+    background: transparent;
+    color: var(--ink-muted);
+    border-color: var(--line);
+  }
+
+  .badge--outline .badge__dot {
+    background: var(--accent-2-graphic);
+  }
+
+  /* Coming soon: muted text, no frame. */
+  .badge--muted {
+    background: transparent;
+    color: var(--ink-muted);
+    padding-inline: 0;
+  }
+
+  .badge--muted .badge__dot {
+    background: var(--line);
+    box-shadow: 0 0 0 1px var(--line);
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.35;
+    }
+  }
+</style>

@@ -1,0 +1,158 @@
+---
+/**
+ * How a payout moves: four steps on a rail, with an amber pulse that travels
+ * along it. Plain words only, no package names.
+ */
+const steps = [
+  { name: 'Request', body: 'A payout is asked for, with one reference attached to it.' },
+  { name: 'Route', body: 'The corridor picks the settlement network with the best licensed off-ramp.' },
+  { name: 'Settle', body: 'The payment executes once, and only once, however many times it is retried.' },
+  { name: 'Reconcile', body: 'The books are matched against the chain, and the same reference lands in the bank narration.' },
+];
+---
+
+<ol class="ps">
+  <div class="ps__rail" aria-hidden="true">
+    <span class="ps__pulse"></span>
+  </div>
+  {
+    steps.map((s, i) => (
+      <li class="ps__step" data-reveal data-reveal-delay={i * 70}>
+        <span class="ps__node" aria-hidden="true" />
+        <span class="ps__num">{String(i + 1).padStart(2, '0')}</span>
+        <h3 class="ps__name">{s.name}</h3>
+        <p class="ps__body">{s.body}</p>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .ps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: grid;
+    gap: 32px;
+  }
+
+  /* Mobile: a vertical rail down the left. */
+  .ps__rail {
+    position: absolute;
+    left: 5px;
+    top: 10px;
+    bottom: 10px;
+    width: 1px;
+    background: var(--line);
+    overflow: hidden;
+  }
+
+  .ps__pulse {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 56px;
+    background: linear-gradient(to bottom, transparent, var(--accent-2-graphic), transparent);
+    animation: run-y 3.6s var(--ease) infinite;
+  }
+
+  /* `top` resolves against the rail, so the pulse travels its whole length
+     whatever the content height turns out to be. */
+  @keyframes run-y {
+    from {
+      top: -56px;
+    }
+    to {
+      top: 100%;
+    }
+  }
+
+  .ps__step {
+    position: relative;
+    padding-left: 30px;
+    display: grid;
+    gap: 4px;
+  }
+
+  .ps__node {
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 11px;
+    height: 11px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1.5px solid var(--accent);
+  }
+
+  .ps__num {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    color: var(--accent-2);
+  }
+
+  .ps__name {
+    font-size: 19px;
+    line-height: 28px;
+  }
+
+  .ps__body {
+    color: var(--ink-muted);
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  /* Desktop: four columns on a horizontal rail. */
+  @media (min-width: 900px) {
+    .ps {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 24px;
+      padding-top: 34px;
+    }
+
+    .ps__rail {
+      left: 0;
+      right: 0;
+      top: 5px;
+      bottom: auto;
+      width: auto;
+      height: 1px;
+    }
+
+    .ps__pulse {
+      top: 0;
+      width: 72px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--accent-2-graphic), transparent);
+      animation: run-x 3.6s var(--ease) infinite;
+    }
+
+    @keyframes run-x {
+      from {
+        left: -72px;
+      }
+      to {
+        left: 100%;
+      }
+    }
+
+    .ps__step {
+      padding-left: 0;
+      padding-top: 0;
+    }
+
+    .ps__node {
+      top: -34px;
+      left: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ps__pulse {
+      display: none;
+    }
+  }
+</style>

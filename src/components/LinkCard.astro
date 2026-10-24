@@ -1,0 +1,64 @@
+---
+import StatusBadge from './StatusBadge.astro';
+import { LINKS, type LinkId } from '../config/links';
+
+interface Props {
+  id: LinkId;
+  delay?: number;
+}
+
+const { id, delay = 0 } = Astro.props;
+const l = LINKS[id];
+---
+
+<a
+  href={l.href}
+  target={l.external ? '_blank' : undefined}
+  rel={l.external ? 'noopener noreferrer' : undefined}
+  class="card card--link lc"
+  data-reveal
+  data-reveal-delay={delay}
+>
+  <div class="lc__top">
+    <h3 class="lc__label">{l.label}</h3>
+    <StatusBadge status={l.status} />
+  </div>
+  {l.blurb && <p class="lc__blurb">{l.blurb}</p>}
+  <span class="lc__href mono">{l.href.replace(/^https?:\/\//, '')}</span>
+</a>
+
+<style>
+  .lc {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    text-decoration: none;
+    height: 100%;
+  }
+
+  .lc__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .lc__label {
+    font-size: 17px;
+    line-height: 26px;
+    color: var(--ink);
+  }
+
+  .lc__blurb {
+    color: var(--ink-muted);
+    font-size: 15px;
+    line-height: 24px;
+  }
+
+  .lc__href {
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--accent-2);
+    overflow-wrap: anywhere;
+  }
+</style>

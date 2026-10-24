@@ -1,0 +1,43 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: cls = '' } = Astro.props;
+---
+
+<span class={`wm ${cls}`}>
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" class="wm__mark">
+    <!-- A "C" drawn as an open corridor: two walls and a gap money passes through. -->
+    <path
+      d="M17.5 5.4A8 8 0 1 0 17.5 16.6"
+      stroke="var(--accent)"
+      stroke-width="2.2"
+      stroke-linecap="round"
+    />
+    <path d="M13 11h7" stroke="var(--accent-2-graphic)" stroke-width="2.2" stroke-linecap="round" />
+  </svg>
+  <span class="wm__text">Corridor <span class="wm__text-2">Finance</span></span>
+</span>
+
+<style>
+  .wm {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .wm__mark {
+    flex: none;
+  }
+
+  .wm__text-2 {
+    color: var(--ink-muted);
+    font-weight: 500;
+  }
+</style>

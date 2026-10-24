@@ -1,0 +1,56 @@
+---
+interface Props {
+  title: string;
+  body: string;
+  index: number;
+  delay?: number;
+}
+
+const { title, body, index, delay = 0 } = Astro.props;
+const num = String(index).padStart(2, '0');
+---
+
+<div class="pt" data-reveal data-reveal-delay={delay}>
+  <span class="pt__num">{num}</span>
+  <h3 class="pt__title">{title}</h3>
+  <p class="pt__body">{body}</p>
+</div>
+
+<style>
+  .pt {
+    display: grid;
+    gap: 6px;
+    padding: 28px 0 0;
+    border-top: 1px solid var(--line);
+    position: relative;
+  }
+
+  /* An amber tick at the head of each tile's rule. */
+  .pt::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 28px;
+    height: 2px;
+    background: var(--accent-2-graphic);
+  }
+
+  .pt__num {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+  }
+
+  .pt__title {
+    font-size: 19px;
+    line-height: 28px;
+  }
+
+  .pt__body {
+    color: var(--ink-muted);
+    font-size: 16px;
+    line-height: 26px;
+  }
+</style>

@@ -1,0 +1,353 @@
+---
+import Wordmark from './Wordmark.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import Button from './Button.astro';
+import { LINKS } from '../config/links';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isOn = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+const products = [
+  { href: '/products/hub', label: 'Corridor Hub', note: 'For licensed payment companies' },
+  { href: '/products/ramp', label: 'Corridor Ramp', note: 'For apps, agents and merchants' },
+];
+---
+
+<header class="nav">
+  <div class="wrap nav__inner">
+    <a href="/" class="nav__brand" aria-label="Corridor Finance, home"><Wordmark /></a>
+
+    <nav class="nav__links" aria-label="Primary">
+      <a href="/platform" class:list={['nav__link', { 'is-on': isOn('/platform') }]}>Platform</a>
+
+      <div class="nav__dd">
+        <button
+          type="button"
+          class:list={['nav__link', 'nav__ddbtn', { 'is-on': isOn('/products') }]}
+          aria-expanded="false"
+          aria-controls="nav-products"
+        >
+          Products
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true" class="nav__chev">
+            <path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        <div class="nav__ddmenu" id="nav-products" hidden>
+          {
+            products.map((p) => (
+              <a href={p.href} class="nav__dditem">
+                <span class="nav__dditem-label">{p.label}</span>
+                <span class="nav__dditem-note">{p.note}</span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <a href="/networks" class:list={['nav__link', { 'is-on': isOn('/networks') }]}>Networks</a>
+      <a href="/developers" class:list={['nav__link', { 'is-on': isOn('/developers') }]}>Developers</a>
+      <a href="/company" class:list={['nav__link', { 'is-on': isOn('/company') }]}>Company</a>
+    </nav>
+
+    <div class="nav__right">
+      <ThemeToggle />
+      <Button href={LINKS.contact.href} external class="nav__cta">Talk to us</Button>
+      <button type="button" class="nav__burger" aria-expanded="false" aria-controls="nav-mobile" aria-label="Menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="nav__mobile" id="nav-mobile" hidden>
+    <div class="wrap nav__mobile-inner">
+      <a href="/platform" class="nav__mlink">Platform</a>
+      <span class="nav__mhead">Products</span>
+      <a href="/products/hub" class="nav__mlink nav__mlink--sub">Corridor Hub</a>
+      <a href="/products/ramp" class="nav__mlink nav__mlink--sub">Corridor Ramp</a>
+      <a href="/networks" class="nav__mlink">Networks</a>
+      <a href="/developers" class="nav__mlink">Developers</a>
+      <a href="/company" class="nav__mlink">Company</a>
+      <Button href={LINKS.contact.href} external class="nav__mcta">Talk to us</Button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--surface) 86%, transparent);
+    backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 64px;
+  }
+
+  .nav__brand {
+    text-decoration: none;
+    flex: none;
+  }
+
+  .nav__links {
+    display: none;
+    align-items: center;
+    gap: 4px;
+    margin-inline: auto;
+  }
+
+  .nav__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    position: relative;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink-muted);
+    background: transparent;
+    border: 0;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
+    transition: color var(--dur) var(--ease);
+  }
+
+  .nav__link:hover,
+  .nav__link.is-on {
+    color: var(--ink);
+  }
+
+  /* An amber underline marks the current section: a technical tick, not a tab. */
+  .nav__link::after {
+    content: '';
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 2px;
+    height: 2px;
+    background: var(--accent-2-graphic);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur) var(--ease);
+  }
+
+  .nav__link.is-on::after,
+  .nav__link:hover::after {
+    transform: scaleX(1);
+  }
+
+  .nav__chev {
+    transition: transform var(--dur) var(--ease);
+  }
+
+  .nav__ddbtn[aria-expanded='true'] .nav__chev {
+    transform: rotate(180deg);
+  }
+
+  .nav__dd {
+    position: relative;
+  }
+
+  .nav__ddmenu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    min-width: 280px;
+    padding: 8px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 2px color-mix(in srgb, var(--ink) 8%, transparent),
+      0 12px 32px color-mix(in srgb, var(--ink) 10%, transparent);
+    display: grid;
+    gap: 2px;
+    animation: dd-in var(--dur) var(--ease);
+  }
+
+  .nav__ddmenu[hidden] {
+    display: none;
+  }
+
+  @keyframes dd-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+
+  .nav__dditem {
+    display: grid;
+    gap: 1px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+
+  .nav__dditem:hover {
+    background: var(--surface-2);
+    border-left-color: var(--accent-2-graphic);
+  }
+
+  .nav__dditem-label {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .nav__dditem-note {
+    font-size: 13px;
+    line-height: 20px;
+    color: var(--ink-muted);
+  }
+
+  .nav__right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+    flex: none;
+  }
+
+  .nav__cta {
+    display: none;
+  }
+
+  /* ---- mobile ---- */
+
+  .nav__burger {
+    display: inline-grid;
+    place-content: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+  }
+
+  .nav__burger span {
+    display: block;
+    width: 16px;
+    height: 1.5px;
+    background: var(--ink);
+    transition: transform var(--dur) var(--ease);
+  }
+
+  .nav__burger[aria-expanded='true'] span:first-child {
+    transform: translateY(3.25px) rotate(45deg);
+  }
+
+  .nav__burger[aria-expanded='true'] span:last-child {
+    transform: translateY(-3.25px) rotate(-45deg);
+  }
+
+  .nav__mobile {
+    border-top: 1px solid var(--line);
+    background: var(--surface);
+    animation: dd-in var(--dur) var(--ease);
+  }
+
+  .nav__mobile[hidden] {
+    display: none;
+  }
+
+  .nav__mobile-inner {
+    display: grid;
+    gap: 2px;
+    padding-block: 12px 20px;
+  }
+
+  .nav__mhead {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    padding: 14px 0 6px;
+  }
+
+  .nav__mlink {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav__mlink--sub {
+    padding-left: 14px;
+    border-left: 2px solid var(--accent-2-graphic);
+  }
+
+  .nav__mcta {
+    margin-top: 18px;
+    justify-content: center;
+  }
+
+  @media (min-width: 1000px) {
+    .nav__links {
+      display: flex;
+    }
+    .nav__cta {
+      display: inline-flex;
+    }
+    .nav__burger,
+    .nav__mobile {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  /* Products dropdown: click to open, Escape or an outside click to close. */
+  const dd = document.querySelector<HTMLButtonElement>('.nav__ddbtn');
+  const ddMenu = document.querySelector<HTMLElement>('.nav__ddmenu');
+
+  const setDd = (open: boolean) => {
+    if (!dd || !ddMenu) return;
+    dd.setAttribute('aria-expanded', String(open));
+    ddMenu.hidden = !open;
+  };
+
+  dd?.addEventListener('click', () => {
+    setDd(dd.getAttribute('aria-expanded') !== 'true');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!dd || !ddMenu) return;
+    const t = e.target as Node;
+    if (!dd.contains(t) && !ddMenu.contains(t)) setDd(false);
+  });
+
+  /* Mobile panel. */
+  const burger = document.querySelector<HTMLButtonElement>('.nav__burger');
+  const panel = document.querySelector<HTMLElement>('.nav__mobile');
+
+  const setPanel = (open: boolean) => {
+    if (!burger || !panel) return;
+    burger.setAttribute('aria-expanded', String(open));
+    panel.hidden = !open;
+  };
+
+  burger?.addEventListener('click', () => {
+    setPanel(burger.getAttribute('aria-expanded') !== 'true');
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    setDd(false);
+    setPanel(false);
+    dd?.focus();
+  });
+</script>

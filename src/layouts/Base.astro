@@ -1,0 +1,128 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Appended to the site name; pass a full title to override entirely. */
+  fullTitle?: boolean;
+}
+
+const SITE_NAME = 'Corridor Finance';
+const DEFAULT_TITLE = 'Corridor Finance: payout infrastructure for Africa';
+const DEFAULT_DESC =
+  'Corridor Finance gives licensed payment companies and the apps they serve one way to move stablecoin payouts exactly once, on the settlement network that fits each corridor.';
+
+const { title, description = DEFAULT_DESC, fullTitle = false } = Astro.props;
+
+const pageTitle = !title ? DEFAULT_TITLE : fullTitle ? title : `${title} · ${SITE_NAME}`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://corridorfinance.tech');
+const ogImage = new URL('/og.png', Astro.site ?? 'https://corridorfinance.tech');
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={ogImage.href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage.href} />
+
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
+
+    {/* Apply the saved theme before first paint so the page never flashes. */}
+    <script is:inline>
+      try {
+        var t = localStorage.getItem('cf-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
+  </head>
+
+  <body>
+    <a href="#main" class="skip">Skip to content</a>
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      /* Scroll-in reveals. Everything is visible by default, so a failed or
+         blocked script can never hide content; the observer only adds the
+         "before" state for elements it is about to animate in. */
+      const reveals = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (reveals.length > 0 && !reduced && 'IntersectionObserver' in window) {
+        reveals.forEach((el) => el.classList.add('reveal-pending'));
+
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              const el = entry.target as HTMLElement;
+              const delay = Number(el.dataset.revealDelay ?? 0);
+              window.setTimeout(() => el.classList.add('reveal-in'), delay);
+              io.unobserve(el);
+            });
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+        );
+
+        reveals.forEach((el) => io.observe(el));
+      }
+    </script>
+
+    <style is:global>
+      .skip {
+        position: absolute;
+        left: -9999px;
+        top: 8px;
+        z-index: 100;
+        background: var(--accent);
+        color: var(--accent-ink);
+        padding: 10px 16px;
+        border-radius: var(--radius-sm);
+        font-size: 14px;
+        text-decoration: none;
+      }
+
+      .skip:focus {
+        left: 16px;
+      }
+
+      .reveal-pending {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      .reveal-in {
+        opacity: 1;
+        transform: none;
+        transition: opacity 200ms var(--ease), transform 200ms var(--ease);
+      }
+    </style>
+  </body>
+</html>

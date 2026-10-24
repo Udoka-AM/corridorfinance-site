@@ -1,0 +1,244 @@
+---
+import { WAITLIST_ENDPOINT, LINKS } from '../config/links';
+
+const networks = ['Base', 'Solana', 'Tempo', 'Stellar', 'Other'];
+const configured = WAITLIST_ENDPOINT !== '';
+---
+
+<form class="wl card" method="post" action={configured ? WAITLIST_ENDPOINT : undefined} novalidate>
+  <div class="wl__grid">
+    <div class="wl__field">
+      <label for="wl-name">Name</label>
+      <input id="wl-name" name="name" type="text" autocomplete="name" required />
+    </div>
+
+    <div class="wl__field">
+      <label for="wl-company">Company</label>
+      <input id="wl-company" name="company" type="text" autocomplete="organization" required />
+    </div>
+
+    <div class="wl__field wl__field--wide">
+      <label for="wl-email">Work email</label>
+      <input id="wl-email" name="email" type="email" autocomplete="email" required />
+    </div>
+  </div>
+
+  <fieldset class="wl__fs">
+    <legend>Networks of interest</legend>
+    <div class="wl__checks">
+      {
+        networks.map((n) => (
+          <label class="wl__check">
+            <input type="checkbox" name="networks" value={n} />
+            <span>{n}</span>
+          </label>
+        ))
+      }
+    </div>
+  </fieldset>
+
+  <div class="wl__foot">
+    <button type="submit" class="wl__submit">Join the waitlist</button>
+    <p class="wl__status" role="status" aria-live="polite"></p>
+  </div>
+
+  {
+    !configured && (
+      <p class="wl__note small">
+        The waitlist endpoint is not configured yet. Set{' '}
+        <code>PUBLIC_WAITLIST_ENDPOINT</code> to switch the form on; until then it points people at{' '}
+        <a href={LINKS.contact.href}>{LINKS.contact.label}</a>.
+      </p>
+    )
+  }
+</form>
+
+<style>
+  .wl {
+    display: grid;
+    gap: 22px;
+    background: var(--surface);
+  }
+
+  .wl__grid {
+    display: grid;
+    gap: 16px;
+  }
+
+  .wl__field {
+    display: grid;
+    gap: 6px;
+  }
+
+  .wl__field label,
+  .wl__fs legend {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .wl__field input {
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--ink);
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 11px 13px;
+    width: 100%;
+    transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+  }
+
+  .wl__field input:focus {
+    background: var(--surface);
+    border-color: var(--accent);
+    outline: none;
+  }
+
+  .wl__field input:user-invalid {
+    border-color: var(--accent-2-graphic);
+  }
+
+  .wl__fs {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    display: grid;
+    gap: 10px;
+  }
+
+  .wl__checks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .wl__check {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 14px;
+    padding: 7px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+  }
+
+  .wl__check:hover {
+    border-color: color-mix(in srgb, var(--accent-2-graphic) 50%, var(--line));
+  }
+
+  .wl__check:has(input:checked) {
+    background: var(--accent-2-wash);
+    border-color: var(--accent-2-graphic);
+  }
+
+  .wl__check input {
+    accent-color: var(--accent);
+    margin: 0;
+  }
+
+  .wl__foot {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .wl__submit {
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--accent-ink);
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-sm);
+    padding: 11px 18px;
+    cursor: pointer;
+    transition: background var(--dur) var(--ease);
+  }
+
+  .wl__submit:hover {
+    background: color-mix(in srgb, var(--accent) 88%, var(--ink));
+  }
+
+  .wl__submit[disabled] {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  .wl__status:empty {
+    display: none;
+  }
+
+  .wl__status {
+    font-size: 14px;
+    color: var(--ink-muted);
+    margin: 0;
+  }
+
+  .wl__status[data-state='error'] {
+    color: var(--accent-2);
+  }
+
+  .wl__status[data-state='done'] {
+    color: var(--accent);
+  }
+
+  .wl__note {
+    color: var(--ink-muted);
+    padding-top: 4px;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (min-width: 640px) {
+    .wl__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .wl__field--wide {
+      grid-column: 1 / -1;
+    }
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('.wl');
+  const status = form?.querySelector<HTMLParagraphElement>('.wl__status');
+  const submit = form?.querySelector<HTMLButtonElement>('.wl__submit');
+
+  const say = (msg: string, state: 'error' | 'done' | 'busy') => {
+    if (!status) return;
+    status.textContent = msg;
+    status.dataset.state = state;
+  };
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.action) {
+      say('The waitlist is not open yet. Email us and we will add you.', 'error');
+      return;
+    }
+    if (!form.reportValidity()) return;
+
+    if (submit) submit.disabled = true;
+    say('Sending…', 'busy');
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      form.reset();
+      say('You are on the list. We will be in touch.', 'done');
+    } catch {
+      say('That did not go through. Please email us instead.', 'error');
+    } finally {
+      if (submit) submit.disabled = false;
+    }
+  });
+</script>
