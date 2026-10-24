@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "corridorfinance-site",
+  "compatibility_date": "2026-10-24",
+
+  // A purely static site: no Worker script, just the built files. Cloudflare
+  // serves dist/ straight from its edge.
+  "assets": {
+    "directory": "./dist",
+    // Misses render the site's own 404 page rather than Cloudflare's.
+    "not_found_handling": "404-page"
+  }
+}
