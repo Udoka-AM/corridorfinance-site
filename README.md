@@ -79,6 +79,26 @@ instead of shipping.
 `public/CNAME` holds the custom domain, so Pages keeps `corridorfinance.tech` across deploys.
 Deleting that file would drop the domain on the next publish.
 
+### DNS for corridorfinance.tech
+
+The custom domain is set on the Pages site and `public/CNAME` carries it through each build.
+DNS is on Cloudflare, so the apex needs these records there:
+
+| Type | Name | Value |
+| --- | --- | --- |
+| A | `@` | `185.199.108.153` |
+| A | `@` | `185.199.109.153` |
+| A | `@` | `185.199.110.153` |
+| A | `@` | `185.199.111.153` |
+| CNAME | `www` | `udoka-am.github.io` |
+
+Optionally also the AAAA records `2606:50c0:8000::153` through `...8003::153` on `@`.
+
+**Set them to DNS only (grey cloud), not proxied.** With Cloudflare's proxy on, GitHub cannot
+complete its domain check and will not issue the TLS certificate, so the site stays on HTTP and
+shows a certificate error. Once the certificate has been issued, turn on Enforce HTTPS in the
+repository's Pages settings.
+
 The waitlist form posts to `PUBLIC_WAITLIST_ENDPOINT`, which is read at **build** time. Pages
 has no runtime environment variables, so set it as a repository variable or secret and pass it
 into the build step in the workflow. Without it the form stays off and points people at the
