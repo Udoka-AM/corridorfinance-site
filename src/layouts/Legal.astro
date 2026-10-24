@@ -1,0 +1,79 @@
+---
+import Base from './Base.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  updated: string;
+}
+
+const { title, description, updated } = Astro.props;
+---
+
+<Base title={title} description={description}>
+  <section class="section section--tight">
+    <div class="wrap lg" data-reveal>
+      <p class="eyebrow tick-rule">Legal</p>
+      <h1>{title}</h1>
+      <p class="lg__meta mono">Last updated {updated}</p>
+
+      <div class="lg__placeholder">
+        <p>
+          This page is a placeholder. The final text is being prepared with counsel and will
+          replace it before launch.
+        </p>
+      </div>
+
+      <div class="lg__prose">
+        <slot />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lg {
+    max-width: 72ch;
+  }
+
+  .lg h1 {
+    margin-top: 14px;
+  }
+
+  .lg__meta {
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-top: 12px;
+  }
+
+  .lg__placeholder {
+    margin-top: 28px;
+    padding: 16px 20px;
+    background: var(--accent-2-wash);
+    border: 1px solid color-mix(in srgb, var(--accent-2-graphic) 35%, var(--line));
+    border-radius: var(--radius);
+    font-size: 15px;
+    line-height: 24px;
+  }
+
+  .lg__prose {
+    margin-top: 40px;
+    display: grid;
+    gap: 28px;
+  }
+
+  .lg__prose :global(h2) {
+    font-size: 22px;
+    line-height: 30px;
+  }
+
+  .lg__prose :global(p) {
+    margin-top: 10px;
+    color: var(--ink-muted);
+  }
+
+  .lg__prose :global(section) {
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+</style>

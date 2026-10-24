@@ -1,0 +1,36 @@
+---
+import Legal from '../../layouts/Legal.astro';
+import { LINKS } from '../../config/links';
+---
+
+<Legal
+  title="Terms"
+  description="Terms of use for the Corridor Finance website and products."
+  updated="24 October 2026"
+>
+  <section>
+    <h2>What Corridor Finance provides</h2>
+    <p>
+      Corridor Finance provides software. It is not a bank, custodian or money transmitter, and
+      does not hold customer funds, provide liquidity or carry payment licences. Fiat payouts and
+      collections are carried out by licensed partners in each corridor, and operators sign
+      transactions with their own keys.
+    </p>
+  </section>
+
+  <section>
+    <h2>Use of this site</h2>
+    <p>
+      The information on this site is provided for general reference. Product status, network
+      availability and corridor coverage change, and nothing here is an offer, a commitment or
+      advice of any kind.
+    </p>
+  </section>
+
+  <section>
+    <h2>Contact</h2>
+    <p>
+      Questions about these terms: <a href={LINKS.contact.href}>{LINKS.contact.label}</a>.
+    </p>
+  </section>
+</Legal>

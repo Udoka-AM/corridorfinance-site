@@ -1,0 +1,172 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import LayersDiagram from '../components/LayersDiagram.astro';
+import ProofStrip from '../components/ProofStrip.astro';
+import Section from '../components/Section.astro';
+import ProductCard from '../components/ProductCard.astro';
+import NetworkCard from '../components/NetworkCard.astro';
+import PrincipleTile from '../components/PrincipleTile.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { LINKS } from '../config/links';
+import { HERO, LAYERS, PRINCIPLES } from '../config/content';
+---
+
+<Base>
+  <!-- 1. Hero -->
+  <section class="hero">
+    <div class="wrap hero__inner">
+      <div class="hero__text" data-reveal>
+        <p class="eyebrow tick-rule">Corridor Finance</p>
+        <h1 class="hero__h1">{HERO.h1}</h1>
+        <p class="hero__sub">{HERO.sub}</p>
+        <div class="hero__cta">
+          <Button href={LINKS.contact.href} external>Talk to us</Button>
+          <Button href="/platform" variant="secondary">Explore the platform</Button>
+        </div>
+      </div>
+      <div class="hero__dg" data-reveal data-reveal-delay="90">
+        <LayersDiagram />
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Proof strip -->
+  <ProofStrip />
+
+  <!-- 3. Three layers -->
+  <Section eyebrow="Platform" heading="One platform, three layers.">
+    <p slot="lede" class="lede">
+      One settlement engine, and two ways to reach it: the Hub that payment companies run
+      themselves, and the Ramp that apps and agents call.
+    </p>
+    <div class="grid-3">
+      {
+        LAYERS.map((l, i) => (
+          <ProductCard
+            name={l.name}
+            audience={l.audience}
+            body={l.body}
+            href={l.href}
+            icon={l.icon}
+            delay={i * 70}
+          />
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- 4. Networks -->
+  <Section band eyebrow="Settlement" heading="Settlement network, chosen per corridor.">
+    <p slot="lede" class="lede">
+      Each corridor settles where the licensed off-ramps are strongest. Your integration stays the
+      same.
+    </p>
+    <div class="grid-3">
+      <NetworkCard networks={['tempo']} />
+      <NetworkCard networks={['stellar']} delay={70} />
+      <NetworkCard networks={['base', 'solana']} delay={140} />
+    </div>
+  </Section>
+
+  <!-- 5. Principles -->
+  <Section eyebrow="Principles" heading="Built for regulated money movement.">
+    <div class="grid-2">
+      {
+        PRINCIPLES.map((p, i) => (
+          <PrincipleTile title={p.title} body={p.body} index={i + 1} delay={i * 60} />
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- 6. Developers band -->
+  <section class="section section--tight band">
+    <div class="wrap dev" data-reveal>
+      <div>
+        <p class="eyebrow tick-rule">Developers</p>
+        <h2 class="dev__head">One API and SDK for local-currency payouts.</h2>
+      </div>
+      <div class="dev__cta">
+        <Button href={LINKS.tempoDocs.href} external>Read the docs</Button>
+        <Button href={LINKS.rampStellarSource.href} external variant="secondary">
+          View on GitHub
+        </Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Closing CTA -->
+  <CtaBand />
+</Base>
+
+<style>
+  .hero {
+    padding-block: 72px 56px;
+  }
+
+  .hero__inner {
+    display: grid;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .hero__text {
+    display: grid;
+    gap: 20px;
+    align-content: start;
+  }
+
+  .hero__h1 {
+    max-width: 22ch;
+  }
+
+  .hero__sub {
+    font-size: 19px;
+    line-height: 30px;
+    color: var(--ink-muted);
+    max-width: 56ch;
+  }
+
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .dev {
+    display: grid;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .dev__head {
+    margin-top: 14px;
+    font-size: 28px;
+    line-height: 36px;
+    max-width: 26ch;
+  }
+
+  .dev__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  @media (min-width: 900px) {
+    .hero {
+      padding-block: 104px 72px;
+    }
+
+    .hero__inner {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      gap: 56px;
+    }
+
+    .dev {
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+    }
+  }
+</style>

@@ -1,0 +1,141 @@
+---
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import CapabilityList from '../../components/CapabilityList.astro';
+import LinkCard from '../../components/LinkCard.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import Button from '../../components/Button.astro';
+import WaitlistForm from '../../components/WaitlistForm.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { LINKS } from '../../config/links';
+
+const capabilities = [
+  {
+    title: 'Hosted API and TypeScript SDK',
+    body: 'One integration to send and receive local currency, with typed clients.',
+  },
+  {
+    title: 'Sponsored accounts and trustlines, with your wallet or ours',
+    body:
+      'Your app brings its own signer, or uses one Corridor provides. Corridor sponsors the ' +
+      'account and its asset trustline, and covers the network fee.',
+  },
+  {
+    title: 'Payouts and collections',
+    body: 'Money out to a local bank account, and money in from one, through licensed partners.',
+  },
+  {
+    title: 'Built for agents as well as apps',
+    body: 'The same API serves an autonomous agent and a product with a user interface.',
+  },
+];
+---
+
+<Base
+  title="Corridor Ramp"
+  description="Send and receive local African currency from any app, agent or merchant, through licensed partners."
+>
+  <section class="section section--tight">
+    <div class="wrap lead" data-reveal>
+      <p class="eyebrow tick-rule">Product</p>
+      <h1>Corridor Ramp</h1>
+      <p class="lede">
+        Send and receive local African currency from any app, agent or merchant, through licensed
+        partners.
+      </p>
+      <div class="lead__cta">
+        <Button href={LINKS.rampStellarSource.href} external>View the API and SDK</Button>
+        <Button href={LINKS.contact.href} external variant="secondary">Talk to us</Button>
+      </div>
+    </div>
+  </section>
+
+  <Section band eyebrow="Capabilities" heading="What the Ramp does.">
+    <CapabilityList items={capabilities} />
+  </Section>
+
+  <Section eyebrow="Pricing" heading="How it is priced." tight>
+    <p class="price" data-reveal>
+      Platform fee plus a small share of volume. Talk to us for details.
+    </p>
+  </Section>
+
+  <Section eyebrow="Availability" heading="Where the Ramp runs.">
+    <div class="av">
+      <div class="av__group" data-reveal>
+        <div class="av__head">
+          <h3 class="av__net">Ramp on Stellar</h3>
+          <StatusBadge status="testnet" />
+        </div>
+        <div class="grid-3">
+          <LinkCard id="rampStellarSource" />
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section band id="multichain" eyebrow="Roadmap" heading="Ramp multichain.">
+    <p slot="lede" class="lede">
+      Additional settlement networks, chosen the same way: wherever the licensed off-ramps for a
+      corridor are strongest. Tell us which networks matter to you and we will come back to you
+      when they are ready.
+    </p>
+    <div class="mc" data-reveal>
+      <div class="mc__badge">
+        <StatusBadge status="coming-soon" />
+      </div>
+      <WaitlistForm />
+    </div>
+  </Section>
+
+  <CtaBand heading="Building something that pays out in Africa? Let's talk." />
+</Base>
+
+<style>
+  .lead {
+    display: grid;
+    gap: 18px;
+    max-width: 68ch;
+  }
+
+  .lead__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 6px;
+  }
+
+  .price {
+    font-size: 19px;
+    line-height: 30px;
+    max-width: 54ch;
+    padding-left: 20px;
+    border-left: 2px solid var(--accent-2-graphic);
+  }
+
+  .av {
+    display: grid;
+    gap: 48px;
+  }
+
+  .av__head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-bottom: 14px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .av__net {
+    font-size: 19px;
+    line-height: 28px;
+  }
+
+  .mc {
+    display: grid;
+    gap: 18px;
+    max-width: 760px;
+  }
+</style>

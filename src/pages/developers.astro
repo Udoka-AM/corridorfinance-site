@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import LinkCard from '../components/LinkCard.astro';
+import Button from '../components/Button.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { LINKS, type LinkId } from '../config/links';
+
+const cards: LinkId[] = [
+  'tempoDocs',
+  'tempoSource',
+  'hubStellarSource',
+  'rampStellarSource',
+  'rampMultichain',
+];
+---
+
+<Base
+  title="Developers"
+  description="Docs, repositories and the hosted payout API and SDK for Corridor Hub and Corridor Ramp."
+>
+  <section class="section section--tight">
+    <div class="wrap lead" data-reveal>
+      <p class="eyebrow tick-rule">Developers</p>
+      <h1>One API and SDK for local-currency payouts.</h1>
+      <p class="lede">
+        Docs, source and the hosted API. Every badge below says where that piece actually runs.
+      </p>
+      <div class="lead__cta">
+        <Button href={LINKS.tempoDocs.href} external>Read the docs</Button>
+        <Button href={LINKS.founderGithub.href} external variant="secondary">View on GitHub</Button>
+      </div>
+    </div>
+  </section>
+
+  <Section tight>
+    <div class="grid-3">
+      {cards.map((id, i) => <LinkCard id={id} delay={i * 60} />)}
+    </div>
+  </Section>
+
+  <CtaBand heading="Integrating Corridor? Let's talk." />
+</Base>
+
+<style>
+  .lead {
+    display: grid;
+    gap: 18px;
+    max-width: 68ch;
+  }
+
+  .lead__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 6px;
+  }
+</style>

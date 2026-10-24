@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import NetworkTable from '../components/NetworkTable.astro';
+import NetworkCard from '../components/NetworkCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+---
+
+<Base
+  title="Networks"
+  description="Corridor settles each corridor on the network with the best licensed off-ramps for it. Tempo is live on mainnet; Stellar is on testnet."
+>
+  <section class="section section--tight">
+    <div class="wrap lead" data-reveal>
+      <p class="eyebrow tick-rule">Networks</p>
+      <h1>Settlement networks and status.</h1>
+      <p class="lede">
+        Corridor settles each corridor on the network with the best licensed off-ramps for it.
+      </p>
+    </div>
+  </section>
+
+  <Section tight>
+    <NetworkTable />
+  </Section>
+
+  <Section band eyebrow="Detail" heading="Network by network.">
+    <div class="grid-3">
+      <NetworkCard networks={['tempo']} />
+      <NetworkCard networks={['stellar']} delay={70} />
+      <NetworkCard networks={['base', 'solana']} delay={140} />
+    </div>
+  </Section>
+
+  <CtaBand heading="Need a corridor we have not built yet? Let's talk." />
+</Base>
+
+<style>
+  .lead {
+    display: grid;
+    gap: 18px;
+    max-width: 68ch;
+  }
+</style>

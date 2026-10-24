@@ -1,0 +1,34 @@
+---
+import Legal from '../../layouts/Legal.astro';
+import { LINKS } from '../../config/links';
+---
+
+<Legal
+  title="Privacy"
+  description="How Corridor Finance handles personal data collected through this website."
+  updated="24 October 2026"
+>
+  <section>
+    <h2>What this site collects</h2>
+    <p>
+      This site ships no third-party analytics or advertising trackers. The only personal data it
+      collects is what you type into the waitlist form, and what you send us by email.
+    </p>
+  </section>
+
+  <section>
+    <h2>The waitlist form</h2>
+    <p>
+      Name, company, work email and the networks you select are used to contact you about Corridor
+      Ramp and nothing else. Ask us and we will delete it.
+    </p>
+  </section>
+
+  <section>
+    <h2>Contact</h2>
+    <p>
+      Privacy questions and deletion requests:
+      <a href={LINKS.contact.href}>{LINKS.contact.label}</a>.
+    </p>
+  </section>
+</Legal>

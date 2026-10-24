@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import LayersDiagram from '../components/LayersDiagram.astro';
+import PayoutSequence from '../components/PayoutSequence.astro';
+import NetworkTable from '../components/NetworkTable.astro';
+import ProductCard from '../components/ProductCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { LAYERS } from '../config/content';
+---
+
+<Base
+  title="Platform"
+  description="One settlement engine and two ways to reach it: Corridor Core, Corridor Hub and Corridor Ramp, settling on the network that fits each corridor."
+>
+  <section class="section section--tight">
+    <div class="wrap lead" data-reveal>
+      <p class="eyebrow tick-rule">Platform</p>
+      <h1 class="lead__h1">How the layers fit.</h1>
+      <p class="lede">
+        Corridor Core is the settlement engine: it executes a payout exactly once, keeps books that
+        match the chain, and carries one reference from treasury to bank narration. Corridor Hub
+        puts that engine in a licensed payment company's own environment, on their own keys.
+        Corridor Ramp exposes it as a hosted API and SDK for apps, agents and merchants. Each
+        corridor settles on the network with the best licensed off-ramps for it, and your
+        integration does not change when that choice does.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--tight band">
+    <div class="wrap" data-reveal>
+      <LayersDiagram size="lg" />
+    </div>
+  </section>
+
+  <Section eyebrow="Layers" heading="Three layers, one engine.">
+    <div class="grid-3">
+      {
+        LAYERS.map((l, i) => (
+          <ProductCard
+            name={l.name}
+            audience={l.audience}
+            body={l.body}
+            href={l.href}
+            icon={l.icon}
+            delay={i * 70}
+          />
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section band eyebrow="Sequence" heading="How a payout moves.">
+    <p slot="lede" class="lede">
+      Four steps, the same four every time, whichever network the corridor settles on.
+    </p>
+    <PayoutSequence />
+  </Section>
+
+  <Section eyebrow="Networks" heading="Settlement networks and status.">
+    <p slot="lede" class="lede">
+      Corridor settles each corridor on the network with the best licensed off-ramps for it.
+    </p>
+    <NetworkTable />
+  </Section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .lead {
+    display: grid;
+    gap: 18px;
+    max-width: 76ch;
+  }
+
+  .lead__h1 {
+    max-width: 24ch;
+  }
+</style>

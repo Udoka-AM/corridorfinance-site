@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+---
+
+<Base title="Page not found">
+  <section class="section nf">
+    <div class="wrap nf__inner">
+      <p class="eyebrow tick-rule">404</p>
+      <h1>That page is not here.</h1>
+      <p class="lede">The link may be old, or the page may have moved.</p>
+      <div class="nf__cta">
+        <Button href="/">Back to home</Button>
+        <Button href="/platform" variant="secondary">Explore the platform</Button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf__inner {
+    display: grid;
+    gap: 18px;
+    max-width: 56ch;
+  }
+
+  .nf__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 6px;
+  }
+</style>

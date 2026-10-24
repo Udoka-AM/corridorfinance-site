@@ -1,0 +1,144 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import PrincipleTile from '../components/PrincipleTile.astro';
+import Button from '../components/Button.astro';
+import { LINKS } from '../config/links';
+import { PRINCIPLES } from '../config/content';
+---
+
+<Base
+  title="Company"
+  description="Corridor Finance is building payout infrastructure for Africa's cross-border money movement, from Abuja, Nigeria."
+>
+  <section class="section section--tight">
+    <div class="wrap lead" data-reveal>
+      <p class="eyebrow tick-rule">Company</p>
+      <h1>About Corridor Finance.</h1>
+      <p class="lede">
+        Corridor Finance is building payout infrastructure for Africa's cross-border money
+        movement, from Abuja, Nigeria.
+      </p>
+    </div>
+  </section>
+
+  <Section band eyebrow="Founder" heading="Who is building it." tight>
+    <div class="card fo" data-reveal>
+      <!--
+        PLACEHOLDER: confirm this bio with Udoka before the site goes live.
+        Keep it to one line and keep it checkable.
+      -->
+      <div class="fo__id">
+        <h3 class="fo__name">Udoka A. M.</h3>
+        <p class="fo__role">Founder</p>
+      </div>
+      <p class="fo__bio">
+        Builds payments infrastructure for African corridors, and has shipped the settlement
+        engine that made Corridor's first mainnet payout.
+      </p>
+      <div class="fo__links">
+        <a href={LINKS.founderSite.href} target="_blank" rel="noopener noreferrer">
+          {LINKS.founderSite.label}
+        </a>
+        <a href={LINKS.founderGithub.href} target="_blank" rel="noopener noreferrer">
+          {LINKS.founderGithub.label}
+        </a>
+      </div>
+    </div>
+  </Section>
+
+  <Section eyebrow="Principles" heading="How we build.">
+    <div class="grid-2">
+      {
+        PRINCIPLES.map((p, i) => (
+          <PrincipleTile title={p.title} body={p.body} index={i + 1} delay={i * 60} />
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section band eyebrow="Contact" heading="Get in touch." tight>
+    <div class="ct" data-reveal>
+      <p class="ct__body">
+        For partnerships, corridors and integrations, email us and we will come back to you.
+      </p>
+      <div class="ct__row">
+        <Button href={LINKS.contact.href} external>Talk to us</Button>
+        <span class="ct__addr mono">{LINKS.contact.label}</span>
+      </div>
+      <p class="ct__legal small">
+        Corridor Finance provides software. It is not a bank, custodian or money transmitter, and
+        does not hold customer funds. Licensed payment partners handle fiat in each corridor.
+      </p>
+    </div>
+  </Section>
+</Base>
+
+<style>
+  .lead {
+    display: grid;
+    gap: 18px;
+    max-width: 68ch;
+  }
+
+  .fo {
+    display: grid;
+    gap: 12px;
+    max-width: 560px;
+  }
+
+  .fo__name {
+    font-size: 19px;
+    line-height: 28px;
+  }
+
+  .fo__role {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    margin-top: 2px;
+  }
+
+  .fo__bio {
+    color: var(--ink-muted);
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  .fo__links {
+    display: flex;
+    gap: 18px;
+    font-size: 14px;
+    padding-top: 6px;
+  }
+
+  .ct {
+    display: grid;
+    gap: 18px;
+    max-width: 62ch;
+  }
+
+  .ct__body {
+    color: var(--ink-muted);
+  }
+
+  .ct__row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .ct__addr {
+    font-size: 14px;
+    color: var(--ink-muted);
+  }
+
+  .ct__legal {
+    color: var(--ink-muted);
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+</style>

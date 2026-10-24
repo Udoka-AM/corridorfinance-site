@@ -1,0 +1,66 @@
+---
+interface Props {
+  items: readonly { title: string; body?: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="cl">
+  {
+    items.map((it, i) => (
+      <li class="cl__item" data-reveal data-reveal-delay={i * 60}>
+        <svg class="cl__mark" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M3 8.5 6.25 11.75 13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <div>
+          <h3 class="cl__title">{it.title}</h3>
+          {it.body && <p class="cl__body">{it.body}</p>}
+        </div>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .cl {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 22px;
+  }
+
+  .cl__item {
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+
+  .cl__mark {
+    margin-top: 6px;
+    color: var(--accent);
+    flex: none;
+  }
+
+  .cl__title {
+    font-size: 17px;
+    line-height: 26px;
+    font-weight: 600;
+  }
+
+  .cl__body {
+    margin-top: 2px;
+    color: var(--ink-muted);
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  @media (min-width: 700px) {
+    .cl {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px 40px;
+    }
+  }
+</style>
