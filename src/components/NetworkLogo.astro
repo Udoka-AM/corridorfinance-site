@@ -1,0 +1,71 @@
+---
+/**
+ * Official network marks, from @web3icons/core's "branded" set — the same
+ * source the Corridor console uses, so the logos match between the two.
+ *
+ * Tempo's and Stellar's brand marks are black by design; Base and Solana
+ * carry their own colours.
+ */
+import {
+  NetworkBrandedTempo,
+  NetworkBrandedStellar,
+  NetworkBrandedBase,
+  NetworkBrandedSolana,
+} from '@web3icons/core';
+import type { NetworkId } from '../config/links';
+
+interface Props {
+  network: NetworkId;
+  size?: number;
+  class?: string;
+}
+
+const { network, size = 28, class: cls = '' } = Astro.props;
+
+type SvgExport = string | { default: string };
+const read = (m: SvgExport): string => (typeof m === 'string' ? m : m.default);
+
+const SOURCES: Record<NetworkId, SvgExport> = {
+  tempo: NetworkBrandedTempo,
+  stellar: NetworkBrandedStellar,
+  base: NetworkBrandedBase,
+  solana: NetworkBrandedSolana,
+};
+
+/* Some marks (Solana) carry gradient definitions with fixed ids. The same
+   logo is rendered more than once on a page -- the network strip duplicates
+   its whole track -- so the ids are namespaced per instance; otherwise the
+   page ships duplicate ids and every copy points at the first one's gradient. */
+const uid = `${network}-${Math.random().toString(36).slice(2, 8)}`;
+
+const raw = read(SOURCES[network])
+  .replace(/width="\d+"/, `width="${size}"`)
+  .replace(/height="\d+"/, `height="${size}"`)
+  .replace(/\sclass="web3icons"/, '');
+
+const ids = [...raw.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
+const svg = ids.reduce(
+  (out, id) =>
+    out
+      .replaceAll(`id="${id}"`, `id="${id}-${uid}"`)
+      .replaceAll(`url(#${id})`, `url(#${id}-${uid})`)
+      .replaceAll(`href="#${id}"`, `href="#${id}-${uid}"`),
+  raw,
+);
+---
+
+<span class={`nl ${cls}`} style={`--nl-size:${size}px`} set:html={svg} />
+
+<style>
+  .nl {
+    display: inline-grid;
+    place-items: center;
+    width: var(--nl-size);
+    height: var(--nl-size);
+    flex: none;
+  }
+
+  .nl :global(svg) {
+    display: block;
+  }
+</style>

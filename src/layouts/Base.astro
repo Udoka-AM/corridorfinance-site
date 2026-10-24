@@ -6,8 +6,6 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title?: string;
   description?: string;
-  /** Appended to the site name; pass a full title to override entirely. */
-  fullTitle?: boolean;
 }
 
 const SITE_NAME = 'Corridor Finance';
@@ -15,11 +13,12 @@ const DEFAULT_TITLE = 'Corridor Finance: payout infrastructure for Africa';
 const DEFAULT_DESC =
   'Corridor Finance gives licensed payment companies and the apps they serve one way to move stablecoin payouts exactly once, on the settlement network that fits each corridor.';
 
-const { title, description = DEFAULT_DESC, fullTitle = false } = Astro.props;
+const { title, description = DEFAULT_DESC } = Astro.props;
 
-const pageTitle = !title ? DEFAULT_TITLE : fullTitle ? title : `${title} · ${SITE_NAME}`;
-const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://corridorfinance.tech');
-const ogImage = new URL('/og.png', Astro.site ?? 'https://corridorfinance.tech');
+const pageTitle = title ? `${title} · ${SITE_NAME}` : DEFAULT_TITLE;
+const site = Astro.site ?? new URL('https://corridorfinance.tech');
+const canonical = new URL(Astro.url.pathname, site);
+const ogImage = new URL('/og.png', site);
 ---
 
 <!doctype html>
@@ -48,20 +47,12 @@ const ogImage = new URL('/og.png', Astro.site ?? 'https://corridorfinance.tech')
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage.href} />
 
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
-
-    {/* Apply the saved theme before first paint so the page never flashes. */}
-    <script is:inline>
-      try {
-        var t = localStorage.getItem('cf-theme');
-        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
-      } catch (e) {}
-    </script>
+    <meta name="theme-color" content="#fafaf8" />
   </head>
 
   <body>
     <a href="#main" class="skip">Skip to content</a>
+    <div class="grain" aria-hidden="true"></div>
     <Nav />
     <main id="main">
       <slot />
@@ -69,20 +60,17 @@ const ogImage = new URL('/og.png', Astro.site ?? 'https://corridorfinance.tech')
     <Footer />
 
     <script>
-      /* Scroll-in reveals. Everything is visible by default, so a failed or
-         blocked script can never hide content; the observer only adds the
-         "before" state for elements it is about to animate in. */
+      /* Scroll-in reveals. Content is visible by default, so a blocked script
+         can never hide anything; the observer only adds the "before" state to
+         elements it is about to animate in, and skips whatever is already on
+         screen so the fold never flashes. */
       const reveals = document.querySelectorAll<HTMLElement>('[data-reveal]');
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       if (reveals.length > 0 && !reduced && 'IntersectionObserver' in window) {
-        /* Anything already on screen when the script runs is above the fold:
-           leave it alone rather than hiding it and fading it back in, which
-           would read as a flash on load. */
-        const pending = [...reveals].filter((el) => {
-          const r = el.getBoundingClientRect();
-          return r.top > window.innerHeight * 0.9;
-        });
+        const pending = [...reveals].filter(
+          (el) => el.getBoundingClientRect().top > window.innerHeight * 0.9,
+        );
         pending.forEach((el) => el.classList.add('reveal-pending'));
 
         const io = new IntersectionObserver(
@@ -95,24 +83,26 @@ const ogImage = new URL('/og.png', Astro.site ?? 'https://corridorfinance.tech')
               io.unobserve(el);
             });
           },
-          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.06 },
         );
 
         pending.forEach((el) => io.observe(el));
 
-        /* A hash jump (/products/ramp#multichain) can scroll straight past
-           elements before the observer ever sees them. Sweep once the page has
-           settled so nothing is left invisible above the current position. */
-        const sweep = () => {
-          pending.forEach((el) => {
-            if (el.classList.contains('reveal-in')) return;
-            if (el.getBoundingClientRect().top < window.innerHeight) {
-              el.classList.add('reveal-in');
-              io.unobserve(el);
-            }
-          });
-        };
-        window.addEventListener('load', sweep, { once: true });
+        /* A hash jump can scroll straight past pending elements before the
+           observer sees them; sweep once the page has settled. */
+        window.addEventListener(
+          'load',
+          () => {
+            pending.forEach((el) => {
+              if (el.classList.contains('reveal-in')) return;
+              if (el.getBoundingClientRect().top < window.innerHeight) {
+                el.classList.add('reveal-in');
+                io.unobserve(el);
+              }
+            });
+          },
+          { once: true },
+        );
       }
     </script>
 
@@ -122,27 +112,41 @@ const ogImage = new URL('/og.png', Astro.site ?? 'https://corridorfinance.tech')
         left: -9999px;
         top: 8px;
         z-index: 100;
-        background: var(--accent);
-        color: var(--accent-ink);
+        background: var(--y-300);
+        color: var(--ink);
         padding: 10px 16px;
-        border-radius: var(--radius-sm);
-        font-size: 14px;
-        text-decoration: none;
+        font-size: 12px;
       }
 
       .skip:focus {
         left: 16px;
       }
 
+      /* A faint moving grain over the whole page, as on the console. */
+      .grain {
+        position: fixed;
+        inset: -60px;
+        z-index: 1;
+        pointer-events: none;
+        opacity: 0.4;
+        mix-blend-mode: multiply;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.26'/%3E%3C/svg%3E");
+        animation: grain 1.1s steps(5) infinite;
+      }
+
       .reveal-pending {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(14px);
       }
 
       .reveal-in {
-        opacity: 1;
-        transform: none;
-        transition: opacity 200ms var(--ease), transform 200ms var(--ease);
+        animation: rise var(--dur-slow) var(--ease-out) both;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .grain {
+          animation: none;
+        }
       }
     </style>
   </body>

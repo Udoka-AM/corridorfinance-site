@@ -28,7 +28,6 @@ function tokensFrom(selector) {
 }
 
 const light = tokensFrom(':root {');
-const dark = tokensFrom(":root[data-theme='dark']");
 
 const srgb = (h) => h.slice(1).match(/../g).map((x) => parseInt(x, 16) / 255);
 const lin = (c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
@@ -42,32 +41,49 @@ const ratio = (a, b) => {
   return (hi + 0.05) / (lo + 0.05);
 };
 
-/** [foreground token, background token, minimum, what it is] */
+/**
+ * [foreground, background, minimum, what it is]
+ *
+ * The yellow ramp is checked by the job each step actually does. The bright
+ * steps are never asked to carry text; they are only ever a background with
+ * ink on top, which is how they stay legible.
+ */
 const PAIRS = [
   ['--ink', '--surface', 4.5, 'body text on page'],
   ['--ink', '--surface-2', 4.5, 'body text on band'],
-  ['--ink-muted', '--surface', 4.5, 'secondary text on page'],
-  ['--ink-muted', '--surface-2', 4.5, 'secondary text on band'],
-  ['--accent', '--surface', 4.5, 'link on page'],
-  ['--accent', '--surface-2', 4.5, 'link on band'],
-  ['--accent-ink', '--accent', 4.5, 'text on primary button / Live badge'],
-  ['--accent', '--accent-wash', 4.5, 'accent text on green wash'],
-  ['--accent-2', '--surface', 4.5, 'amber text on page'],
-  ['--accent-2', '--surface-2', 4.5, 'amber text on band'],
-  ['--accent-2-ink', '--accent-2-fill', 4.5, 'text on amber fill'],
-  ['--accent-2', '--accent-2-wash', 4.5, 'amber text on amber wash'],
-  ['--ink', '--accent-2-wash', 4.5, 'body text on amber wash'],
-  ['--accent-2-graphic', '--surface', 3, 'amber stroke on page'],
-  ['--accent-2-graphic', '--surface-2', 3, 'amber stroke on band'],
-  ['--accent', '--surface', 3, 'green stroke on page'],
-  ['--accent-2-graphic', '--accent-2-wash', 3, 'amber stroke on amber wash'],
+  ['--ink', '--surface-3', 4.5, 'body text on card'],
+  ['--ink-2', '--surface', 4.5, 'lede on page'],
+  ['--ink-2', '--surface-2', 4.5, 'lede on band'],
+  ['--ink-2', '--surface-3', 4.5, 'lede on card'],
+  ['--ink-muted', '--surface', 4.5, 'eyebrow on page'],
+  ['--ink-muted', '--surface-2', 4.5, 'eyebrow on band'],
+  ['--ink-muted', '--surface-3', 4.5, 'eyebrow on card'],
+
+  // yellow carrying text: only the deep steps may
+  ['--y-600', '--surface', 4.5, 'accent text on page'],
+  ['--y-600', '--surface-2', 4.5, 'accent text on band'],
+  ['--y-600', '--surface-3', 4.5, 'accent text on card'],
+  ['--y-700', '--surface', 4.5, 'deep accent text on page'],
+  ['--y-600', '--y-50', 4.5, 'accent text on wash'],
+  ['--y-700', '--y-100', 4.5, 'deep accent text on wash-2'],
+
+  // ink sitting on a yellow fill: the bright steps' only text job
+  ['--ink', '--y-300', 4.5, 'ink on primary button / bright fill'],
+  ['--ink', '--y-200', 4.5, 'ink on mid fill'],
+  ['--ink', '--y-100', 4.5, 'ink on pale fill'],
+  ['--ink', '--y-50', 4.5, 'ink on wash'],
+  ['--ink', '--y-400', 4.5, 'ink on deep fill'],
+
+  // non-text: strokes, rules, icons (WCAG 1.4.11)
+  ['--y-500', '--surface', 3, 'accent stroke on page'],
+  ['--y-500', '--surface-2', 3, 'accent stroke on band'],
+  ['--y-500', '--surface-3', 3, 'accent stroke on card'],
+  ['--y-300', '--ink', 3, 'bright yellow mark on ink'],
+  ['--line-strong', '--surface', 1.4, 'hairline on page (decorative only)'],
 ];
 
 let failed = 0;
-for (const [name, tokens] of [
-  ['light', light],
-  ['dark', dark],
-]) {
+for (const [name, tokens] of [['light', light]]) {
   console.log(`\n${name}`);
   for (const [fg, bg, min, what] of PAIRS) {
     const a = tokens[fg];
@@ -89,4 +105,4 @@ if (failed > 0) {
   console.error(`\n${failed} contrast pair(s) below the bar.`);
   process.exit(1);
 }
-console.log('\nAll contrast pairs meet the bar in both themes.');
+console.log('\nAll contrast pairs meet the bar.');

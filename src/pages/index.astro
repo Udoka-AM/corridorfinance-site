@@ -1,45 +1,45 @@
 ---
 import Base from '../layouts/Base.astro';
 import Button from '../components/Button.astro';
-import LayersDiagram from '../components/LayersDiagram.astro';
-import ProofStrip from '../components/ProofStrip.astro';
+import HeroArt from '../components/HeroArt.astro';
+import NetworkStrip from '../components/NetworkStrip.astro';
 import Section from '../components/Section.astro';
 import ProductCard from '../components/ProductCard.astro';
 import NetworkCard from '../components/NetworkCard.astro';
 import PrincipleTile from '../components/PrincipleTile.astro';
-import CtaBand from '../components/CtaBand.astro';
-import { LINKS } from '../config/links';
+import MarqueeCta from '../components/MarqueeCta.astro';
+import { FIRST_PAYOUT, LINKS } from '../config/links';
 import { HERO, LAYERS, PRINCIPLES } from '../config/content';
 ---
 
 <Base>
-  <!-- 1. Hero -->
+  <!-- Hero -->
   <section class="hero">
-    <div class="wrap hero__inner">
-      <div class="hero__text" data-reveal>
-        <p class="eyebrow tick-rule">Corridor Finance</p>
+    <div class="bleed hero__inner">
+      <div class="hero__text">
+        <p class="eyebrow">01 / Corridor Finance</p>
         <h1 class="hero__h1">{HERO.h1}</h1>
         <p class="hero__sub">{HERO.sub}</p>
         <div class="hero__cta">
           <Button href={LINKS.contact.href} external>Talk to us</Button>
-          <Button href="/platform/" variant="secondary">Explore the platform</Button>
+          <Button href="/platform/" variant="ghost">Explore the platform</Button>
         </div>
+        <a class="hero__proof" href={FIRST_PAYOUT.href} target="_blank" rel="noopener noreferrer">
+          <span class="hero__proof-dot" aria-hidden="true"></span>
+          {FIRST_PAYOUT.line}
+          <span class="hero__proof-arr" aria-hidden="true">↗</span>
+        </a>
       </div>
-      <div class="hero__dg" data-reveal data-reveal-delay="90">
-        <LayersDiagram />
-      </div>
+
+      <div class="hero__art"><HeroArt /></div>
     </div>
   </section>
 
-  <!-- 2. Proof strip -->
-  <ProofStrip />
+  <!-- Networks, flowing -->
+  <NetworkStrip />
 
-  <!-- 3. Three layers -->
-  <Section eyebrow="Platform" heading="One platform, three layers.">
-    <p slot="lede" class="lede">
-      One settlement engine, and two ways to reach it: the Hub that payment companies run
-      themselves, and the Ramp that apps and agents call.
-    </p>
+  <!-- Three layers -->
+  <Section num="02" eyebrow="Platform" tag="One platform, three layers" heading="Settlement, and two ways to reach it.">
     <div class="grid-3">
       {
         LAYERS.map((l, i) => (
@@ -49,6 +49,7 @@ import { HERO, LAYERS, PRINCIPLES } from '../config/content';
             body={l.body}
             href={l.href}
             icon={l.icon}
+            index={i + 1}
             delay={i * 70}
           />
         ))
@@ -56,8 +57,8 @@ import { HERO, LAYERS, PRINCIPLES } from '../config/content';
     </div>
   </Section>
 
-  <!-- 4. Networks -->
-  <Section band eyebrow="Settlement" heading="Settlement network, chosen per corridor.">
+  <!-- Networks -->
+  <Section num="03" eyebrow="Settlement" band heading="The network that fits each corridor.">
     <p slot="lede" class="lede">
       Each corridor settles where the licensed off-ramps are strongest. Your integration stays the
       same.
@@ -69,9 +70,9 @@ import { HERO, LAYERS, PRINCIPLES } from '../config/content';
     </div>
   </Section>
 
-  <!-- 5. Principles -->
-  <Section eyebrow="Principles" heading="Built for regulated money movement.">
-    <div class="grid-2">
+  <!-- Principles -->
+  <Section num="04" eyebrow="Principles" heading="Built for regulated money movement.">
+    <div class="grid-4">
       {
         PRINCIPLES.map((p, i) => (
           <PrincipleTile title={p.title} body={p.body} index={i + 1} delay={i * 60} />
@@ -80,93 +81,96 @@ import { HERO, LAYERS, PRINCIPLES } from '../config/content';
     </div>
   </Section>
 
-  <!-- 6. Developers band -->
-  <section class="section section--tight band">
-    <div class="wrap dev" data-reveal>
-      <div>
-        <p class="eyebrow tick-rule">Developers</p>
-        <h2 class="dev__head">One API and SDK for local-currency payouts.</h2>
-      </div>
-      <div class="dev__cta">
-        <Button href={LINKS.tempoDocs.href} external>Read the docs</Button>
-        <Button href={LINKS.rampStellarSource.href} external variant="secondary">
-          View on GitHub
-        </Button>
-      </div>
+  <!-- Developers -->
+  <Section num="05" eyebrow="Developers" white tight heading="One API and SDK for local-currency payouts.">
+    <div class="dev" data-reveal>
+      <Button href={LINKS.tempoDocs.href} external>Read the docs</Button>
+      <Button href={LINKS.rampStellarSource.href} external variant="ghost">View on GitHub</Button>
     </div>
-  </section>
+  </Section>
 
-  <!-- 7. Closing CTA -->
-  <CtaBand />
+  <MarqueeCta />
 </Base>
 
 <style>
   .hero {
-    padding-block: 72px 56px;
+    padding-block: 56px 64px;
   }
 
   .hero__inner {
     display: grid;
-    gap: 48px;
+    gap: 44px;
     align-items: center;
   }
 
   .hero__text {
     display: grid;
-    gap: 20px;
-    align-content: start;
+    justify-items: start;
+    gap: 22px;
   }
 
   .hero__h1 {
-    max-width: 22ch;
+    max-width: 15ch;
   }
 
   .hero__sub {
-    font-size: 19px;
-    line-height: 30px;
-    color: var(--ink-muted);
-    max-width: 56ch;
+    font-size: 15px;
+    line-height: 28px;
+    color: var(--ink-2);
+    max-width: 52ch;
   }
 
   .hero__cta {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 8px;
+    gap: 10px;
+  }
+
+  .hero__proof {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 11.5px;
+    color: var(--ink-muted);
+    padding-top: 6px;
+    transition: color var(--dur) var(--ease);
+  }
+
+  .hero__proof:hover {
+    color: var(--ink);
+  }
+
+  .hero__proof-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--y-400);
+    flex: none;
+    animation: blink 2.6s steps(2, end) infinite;
+  }
+
+  .hero__proof-arr {
+    color: var(--y-600);
+  }
+
+  .hero__art {
+    max-width: 560px;
+    width: 100%;
+    justify-self: center;
   }
 
   .dev {
-    display: grid;
-    gap: 24px;
-    align-items: center;
-  }
-
-  .dev__head {
-    margin-top: 14px;
-    font-size: 28px;
-    line-height: 36px;
-    max-width: 26ch;
-  }
-
-  .dev__cta {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 10px;
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: 1000px) {
     .hero {
-      padding-block: 104px 72px;
+      padding-block: 76px 88px;
     }
-
     .hero__inner {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-      gap: 56px;
-    }
-
-    .dev {
-      grid-template-columns: 1fr auto;
-      gap: 40px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+      gap: 64px;
     }
   }
 </style>

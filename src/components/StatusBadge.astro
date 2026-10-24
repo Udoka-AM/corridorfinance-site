@@ -3,7 +3,6 @@ import { STATUS, type StatusId } from '../config/links';
 
 interface Props {
   status: StatusId;
-  /** Extra qualifier, e.g. "Tempo deployment". */
   note?: string;
   class?: string;
 }
@@ -14,83 +13,69 @@ const s = STATUS[status];
 
 {
   status !== 'none' && (
-    <span class={`badge badge--${s.variant} ${cls}`}>
-      <span class="badge__dot" aria-hidden="true" />
+    <span class={`bdg bdg--${s.variant} ${cls}`}>
+      <span class="bdg__dot" aria-hidden="true" />
       {s.label}
-      {note && <span class="badge__note">({note})</span>}
+      {note && <span class="bdg__note">({note})</span>}
     </span>
   )
 }
 
 <style>
-  .badge {
+  .bdg {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: 9.5px;
+    font-weight: 700;
     line-height: 1;
-    letter-spacing: 0.02em;
-    padding: 5px 9px;
-    border-radius: 999px;
-    white-space: nowrap;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 9px;
     border: 1px solid transparent;
+    white-space: nowrap;
   }
 
-  .badge__dot {
+  .bdg__dot {
     width: 5px;
     height: 5px;
-    border-radius: 999px;
     background: currentColor;
     flex: none;
   }
 
-  .badge__note {
-    opacity: 0.75;
+  .bdg__note {
+    font-weight: 400;
+    opacity: 0.7;
   }
 
-  /* Live: solid accent. The only status that gets to shout. */
-  .badge--solid {
-    background: var(--accent);
-    color: var(--accent-ink);
-    border-color: var(--accent);
+  /* Live: the only status that gets the solid yellow. */
+  .bdg--solid {
+    background: var(--y-300);
+    border-color: var(--y-400);
+    color: var(--ink);
   }
 
-  .badge--solid .badge__dot {
-    animation: pulse 2.4s var(--ease) infinite;
+  .bdg--solid .bdg__dot {
+    animation: blink 2.4s steps(2, end) infinite;
   }
 
-  /* Testnet: outlined neutral, with an amber tick so it still reads as
-     "running, just not on mainnet". */
-  .badge--outline {
+  .bdg--outline {
     background: transparent;
+    border-color: var(--line-strong);
     color: var(--ink-muted);
-    border-color: var(--line);
   }
 
-  .badge--outline .badge__dot {
-    background: var(--accent-2-graphic);
+  .bdg--outline .bdg__dot {
+    background: var(--y-500);
   }
 
-  /* Coming soon: muted text, no frame. */
-  .badge--muted {
+  .bdg--muted {
     background: transparent;
     color: var(--ink-muted);
     padding-inline: 0;
   }
 
-  .badge--muted .badge__dot {
-    background: var(--line);
-    box-shadow: 0 0 0 1px var(--line);
-  }
-
-  @keyframes pulse {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.35;
-    }
+  .bdg--muted .bdg__dot {
+    background: var(--line-strong);
   }
 </style>

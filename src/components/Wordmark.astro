@@ -1,22 +1,31 @@
 ---
+/**
+ * The Corridor mark: a hub with four spokes converging on it, taken from the
+ * Corridor console so the parent company and the product read as one brand.
+ */
 interface Props {
+  /** Size of the mark in px. */
+  size?: number;
+  /** Hide the "FINANCE" half, as in tight spaces. */
+  short?: boolean;
   class?: string;
 }
-const { class: cls = '' } = Astro.props;
+
+const { size = 22, short = false, class: cls = '' } = Astro.props;
 ---
 
 <span class={`wm ${cls}`}>
-  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" class="wm__mark">
-    <!-- A "C" drawn as an open corridor: two walls and a gap money passes through. -->
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" class="wm__mark">
+    <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.6"></circle>
     <path
-      d="M17.5 5.4A8 8 0 1 0 17.5 16.6"
-      stroke="var(--accent)"
-      stroke-width="2.2"
-      stroke-linecap="round"
-    />
-    <path d="M13 11h7" stroke="var(--accent-2-graphic)" stroke-width="2.2" stroke-linecap="round" />
+      d="M1.5 6.5 L8.4 10.6 M1.5 17.5 L8.4 13.4 M22.5 6.5 L15.6 10.6 M22.5 17.5 L15.6 13.4"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"></path>
   </svg>
-  <span class="wm__text">Corridor <span class="wm__text-2">Finance</span></span>
+  <span class="wm__text">
+    Corridor{!short && <span class="wm__text-2"> Finance</span>}
+  </span>
 </span>
 
 <style>
@@ -24,11 +33,10 @@ const { class: cls = '' } = Astro.props;
     display: inline-flex;
     align-items: center;
     gap: 9px;
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: -0.015em;
-    color: var(--ink);
-    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: currentColor;
     white-space: nowrap;
   }
 
@@ -37,7 +45,7 @@ const { class: cls = '' } = Astro.props;
   }
 
   .wm__text-2 {
-    color: var(--ink-muted);
-    font-weight: 500;
+    font-weight: 400;
+    opacity: 0.55;
   }
 </style>

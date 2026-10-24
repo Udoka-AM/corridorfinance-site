@@ -54,7 +54,7 @@ export type LinkId =
 export const LINKS: Record<LinkId, LinkEntry> = {
   tempoConsole: {
     label: 'Corridor on Tempo: console',
-    href: 'https://corridorapp.udokaam.dev',
+    href: 'https://corridorapp.udokaam.dev/console/',
     status: 'live-mainnet',
     external: true,
     blurb: 'The operator console for the Tempo deployment.',

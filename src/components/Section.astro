@@ -1,28 +1,43 @@
 ---
 interface Props {
-  /** Small mono label above the heading. */
+  /** Accrium-style bracketed eyebrow; pass the number separately. */
   eyebrow?: string;
+  num?: string;
   heading?: string;
-  /** Renders as a band with surface-2 and hairline borders. */
+  tag?: string;
   band?: boolean;
+  white?: boolean;
   tight?: boolean;
   id?: string;
   class?: string;
 }
 
-const { eyebrow, heading, band = false, tight = false, id, class: cls = '' } = Astro.props;
+const {
+  eyebrow,
+  num,
+  heading,
+  tag,
+  band = false,
+  white = false,
+  tight = false,
+  id,
+  class: cls = '',
+} = Astro.props;
+
+const label = num && eyebrow ? `${num} / ${eyebrow}` : (eyebrow ?? '');
 ---
 
 <section
   id={id}
-  class:list={['section', { band, 'section--tight': tight }, cls]}
+  class:list={['section', 'rule-top', { band, 'band-white': white, 'section--tight': tight }, cls]}
 >
-  <div class="wrap">
+  <div class="bleed">
     {
-      (eyebrow || heading) && (
+      (label || heading) && (
         <header class="sec__head" data-reveal>
-          {eyebrow && <p class="eyebrow tick-rule">{eyebrow}</p>}
-          {heading && <h2>{heading}</h2>}
+          {label && <p class="eyebrow">{label}</p>}
+          {tag && <span class="tag">{tag}</span>}
+          {heading && <h2 class="sec__h2">{heading}</h2>}
           <slot name="lede" />
         </header>
       )
@@ -34,12 +49,12 @@ const { eyebrow, heading, band = false, tight = false, id, class: cls = '' } = A
 <style>
   .sec__head {
     display: grid;
-    gap: 14px;
-    margin-bottom: 40px;
-    max-width: 72ch;
+    justify-items: start;
+    gap: 16px;
+    margin-bottom: 44px;
   }
 
-  .sec__head .eyebrow {
-    gap: 10px;
+  .sec__h2 {
+    max-width: 18ch;
   }
 </style>

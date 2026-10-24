@@ -1,0 +1,128 @@
+---
+/**
+ * The hero illustration: value entering a corridor on the left, passing
+ * through the Corridor hub, and leaving as local currency in a bank account
+ * on the right. Drawn with tokens, animated with travelling dashes.
+ */
+---
+
+<figure class="ha">
+  <svg viewBox="0 0 560 420" fill="none" class="ha__svg" role="img" aria-label="Value enters a corridor, passes through the Corridor hub, and arrives as local currency in a bank account.">
+    <!-- grid backdrop -->
+    <defs>
+      <pattern id="ha-grid" width="28" height="28" patternUnits="userSpaceOnUse">
+        <path d="M28 0H0V28" stroke="var(--line)" stroke-width="1" fill="none" />
+      </pattern>
+    </defs>
+    <rect x="0.5" y="0.5" width="559" height="419" fill="url(#ha-grid)" stroke="var(--line)" />
+
+    <!-- left: origin -->
+    <g class="ha__node">
+      <rect x="22" y="152" width="124" height="80" fill="var(--surface-3)" stroke="var(--line-strong)" />
+      <text x="40" y="184" class="ha__t">Stablecoin</text>
+      <text x="40" y="206" class="ha__s">treasury</text>
+    </g>
+
+    <!-- centre: the hub, using the Corridor mark -->
+    <g class="ha__hub">
+      <rect x="214" y="128" width="132" height="128" fill="var(--y-50)" stroke="var(--y-400)" />
+      <g transform="translate(256 150) scale(2)">
+        <circle cx="12" cy="12" r="4.2" stroke="var(--ink)" stroke-width="1.6" fill="none" />
+        <path
+          d="M1.5 6.5 L8.4 10.6 M1.5 17.5 L8.4 13.4 M22.5 6.5 L15.6 10.6 M22.5 17.5 L15.6 13.4"
+          stroke="var(--ink)"
+          stroke-width="1.6"
+          stroke-linecap="round"
+        />
+      </g>
+      <text x="280" y="234" class="ha__t ha__mid">Corridor</text>
+    </g>
+
+    <!-- right: payout -->
+    <g class="ha__node">
+      <rect x="414" y="152" width="124" height="80" fill="var(--surface-3)" stroke="var(--line-strong)" />
+      <text x="432" y="184" class="ha__t">Local bank</text>
+      <text x="432" y="206" class="ha__s">account</text>
+    </g>
+
+    <!-- flows -->
+    <g class="ha__flow">
+      <path d="M146 192 H214" />
+      <path d="M346 192 H414" />
+    </g>
+    <path class="ha__arrow" d="M208 186 214 192 208 198" />
+    <path class="ha__arrow" d="M408 186 414 192 408 198" />
+
+    <!-- partners below -->
+    <g class="ha__node ha__partners">
+      <rect x="214" y="312" width="132" height="56" fill="var(--surface-3)" stroke="var(--line-strong)" />
+      <text x="280" y="338" class="ha__s ha__mid">Licensed</text>
+      <text x="280" y="356" class="ha__s ha__mid">partners</text>
+    </g>
+    <g class="ha__flow"><path d="M280 256 V312" /></g>
+    <path class="ha__arrow" d="M274 306 280 312 286 306" />
+
+    <!-- exactly-once stamp -->
+    <g class="ha__stamp">
+      <rect x="22" y="40" width="150" height="34" fill="var(--y-300)" stroke="var(--y-400)" />
+      <text x="36" y="62" class="ha__stamp-t">EXACTLY ONCE</text>
+    </g>
+
+    <!-- corner ticks -->
+    <path d="M22 388 H64 M22 388 V366" stroke="var(--y-500)" stroke-width="2" />
+    <path d="M538 388 H496 M538 388 V366" stroke="var(--y-500)" stroke-width="2" />
+  </svg>
+</figure>
+
+<style>
+  .ha {
+    margin: 0;
+  }
+
+  .ha__svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .ha__t {
+    fill: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .ha__s {
+    fill: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+  }
+
+  .ha__mid {
+    text-anchor: middle;
+  }
+
+  .ha__stamp-t {
+    fill: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  .ha__flow path {
+    stroke: var(--y-500);
+    stroke-width: 1.5;
+    stroke-dasharray: 6 8;
+    animation: wire 0.9s linear infinite;
+  }
+
+  .ha__arrow {
+    stroke: var(--y-500);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+</style>

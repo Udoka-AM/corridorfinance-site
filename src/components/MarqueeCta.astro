@@ -1,0 +1,155 @@
+---
+/**
+ * Two giant lines of type scrolling in opposite directions, bleeding past both
+ * edges, then the offer beneath. Borrowed from the Corridor console's
+ * "Settle the corridor / Become a spoke" band.
+ *
+ * Each line repeats its phrase enough times to overflow the widest viewport,
+ * and the track translates by exactly -50% so the loop never shows a seam.
+ */
+import Button from './Button.astro';
+import { LINKS } from '../config/links';
+
+interface Props {
+  lineOne?: string;
+  lineTwo?: string;
+  heading?: string;
+  body?: string;
+  cta?: string;
+  href?: string;
+}
+
+const {
+  lineOne = 'Settle the corridor',
+  lineTwo = 'Become a spoke',
+  heading = 'Start read-only. Move money when ready.',
+  body =
+    'Point Corridor at the wallets you already run and let it watch and reconcile before anything moves. Licensed partners handle the fiat; you keep your keys.',
+  cta = 'Talk to us',
+  href = LINKS.contact.href,
+} = Astro.props;
+
+const REPEATS = 6;
+const one = Array.from({ length: REPEATS }, () => lineOne);
+const two = Array.from({ length: REPEATS }, () => lineTwo);
+---
+
+<section class="mq">
+  <div class="mq__lines" aria-hidden="true">
+    <div class="mq__row">
+      <div class="mq__track mq__track--l">
+        {[...one, ...one].map((t) => <span class="mq__word">{t}<span class="mq__dot">·</span></span>)}
+      </div>
+    </div>
+    <div class="mq__row">
+      <div class="mq__track mq__track--r">
+        {[...two, ...two].map((t) => <span class="mq__word mq__word--out">{t}<span class="mq__dot">·</span></span>)}
+      </div>
+    </div>
+  </div>
+
+  <div class="mq__offer bleed">
+    <div class="mq__text">
+      <h2 class="mq__head">{heading}</h2>
+      <p class="mq__body">{body}</p>
+    </div>
+    <span class="mq__btn"><Button href={href} external>{cta}</Button></span>
+  </div>
+</section>
+
+<style>
+  .mq {
+    background: var(--ink);
+    color: var(--surface);
+    padding-block: 72px 0;
+    overflow: hidden;
+  }
+
+  .mq__lines {
+    display: grid;
+    gap: 0;
+    user-select: none;
+  }
+
+  .mq__row {
+    overflow: hidden;
+  }
+
+  .mq__track {
+    display: flex;
+    width: max-content;
+    font-size: clamp(54px, 13vw, 190px);
+    font-weight: 700;
+    letter-spacing: -0.06em;
+    line-height: 1.08;
+    white-space: nowrap;
+  }
+
+  .mq__track--l {
+    animation: marquee-l 44s linear infinite;
+  }
+
+  .mq__track--r {
+    animation: marquee-r 56s linear infinite;
+  }
+
+  .mq__word {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* The second line is outlined rather than filled, so the two read as a pair
+     without competing. */
+  .mq__word--out {
+    color: transparent;
+    -webkit-text-stroke: 1.5px color-mix(in srgb, var(--surface) 42%, transparent);
+  }
+
+  .mq__dot {
+    color: var(--y-300);
+    -webkit-text-stroke: 0;
+    padding-inline: 0.28em;
+  }
+
+  .mq__offer {
+    display: grid;
+    gap: 26px;
+    padding-block: 64px 72px;
+    margin-top: 48px;
+    border-top: 1px solid color-mix(in srgb, var(--surface) 16%, transparent);
+  }
+
+  .mq__head {
+    font-size: clamp(22px, 2.6vw, 34px);
+    max-width: 22ch;
+  }
+
+  .mq__body {
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 26px;
+    color: color-mix(in srgb, var(--surface) 68%, transparent);
+    max-width: 56ch;
+  }
+
+  .mq__btn {
+    justify-self: start;
+  }
+
+  @media (min-width: 900px) {
+    .mq__offer {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 56px;
+    }
+    .mq__btn {
+      justify-self: end;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mq__track {
+      animation: none;
+    }
+  }
+</style>
