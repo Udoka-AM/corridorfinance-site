@@ -8,9 +8,10 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "verify": "node scripts/contrast.mjs && astro check && astro build",
+    "verify": "node scripts/contrast.mjs && astro check && astro build && node scripts/audit.mjs",
     "contrast": "node scripts/contrast.mjs",
-    "og": "node scripts/og.mjs"
+    "og": "node scripts/og.mjs",
+    "audit": "node scripts/audit.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
