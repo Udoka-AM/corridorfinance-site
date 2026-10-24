@@ -76,6 +76,13 @@ for (const file of html) {
       const path = href.split('#')[0].split('?')[0].replace(/\/$/, '') || '/';
       if (path.includes('.')) continue; // an asset, not a page
       if (!pagePaths.has(path)) add(file, `internal link to a page that was not built: ${href}`);
+
+      /* Canonicals and the sitemap use trailing slashes, and the host
+         redirects to add one. A link without it costs a 301 on every click. */
+      const bare = href.split('#')[0].split('?')[0];
+      if (path !== '/' && !bare.endsWith('/')) {
+        add(file, `internal link is missing its trailing slash: ${href}`);
+      }
     }
   }
 

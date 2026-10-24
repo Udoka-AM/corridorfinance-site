@@ -5,10 +5,14 @@ import Button from './Button.astro';
 import { LINKS } from '../config/links';
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const isOn = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+const strip = (p: string) => p.replace(/\/$/, '') || '/';
+const isOn = (href: string) => {
+  const h = strip(href);
+  return path === h || (h !== '/' && path.startsWith(h));
+};
 const products = [
-  { href: '/products/hub', label: 'Corridor Hub', note: 'For licensed payment companies' },
-  { href: '/products/ramp', label: 'Corridor Ramp', note: 'For apps, agents and merchants' },
+  { href: '/products/hub/', label: 'Corridor Hub', note: 'For licensed payment companies' },
+  { href: '/products/ramp/', label: 'Corridor Ramp', note: 'For apps, agents and merchants' },
 ];
 ---
 
@@ -17,12 +21,12 @@ const products = [
     <a href="/" class="nav__brand" aria-label="Corridor Finance, home"><Wordmark /></a>
 
     <nav class="nav__links" aria-label="Primary">
-      <a href="/platform" class:list={['nav__link', { 'is-on': isOn('/platform') }]}>Platform</a>
+      <a href="/platform/" class:list={['nav__link', { 'is-on': isOn('/platform/') }]}>Platform</a>
 
       <div class="nav__dd">
         <button
           type="button"
-          class:list={['nav__link', 'nav__ddbtn', { 'is-on': isOn('/products') }]}
+          class:list={['nav__link', 'nav__ddbtn', { 'is-on': isOn('/products/') }]}
           aria-expanded="false"
           aria-controls="nav-products"
         >
@@ -43,9 +47,9 @@ const products = [
         </div>
       </div>
 
-      <a href="/networks" class:list={['nav__link', { 'is-on': isOn('/networks') }]}>Networks</a>
-      <a href="/developers" class:list={['nav__link', { 'is-on': isOn('/developers') }]}>Developers</a>
-      <a href="/company" class:list={['nav__link', { 'is-on': isOn('/company') }]}>Company</a>
+      <a href="/networks/" class:list={['nav__link', { 'is-on': isOn('/networks/') }]}>Networks</a>
+      <a href="/developers/" class:list={['nav__link', { 'is-on': isOn('/developers/') }]}>Developers</a>
+      <a href="/company/" class:list={['nav__link', { 'is-on': isOn('/company/') }]}>Company</a>
     </nav>
 
     <div class="nav__right">
@@ -60,13 +64,13 @@ const products = [
 
   <div class="nav__mobile" id="nav-mobile" hidden>
     <div class="wrap nav__mobile-inner">
-      <a href="/platform" class="nav__mlink">Platform</a>
+      <a href="/platform/" class="nav__mlink">Platform</a>
       <span class="nav__mhead">Products</span>
-      <a href="/products/hub" class="nav__mlink nav__mlink--sub">Corridor Hub</a>
-      <a href="/products/ramp" class="nav__mlink nav__mlink--sub">Corridor Ramp</a>
-      <a href="/networks" class="nav__mlink">Networks</a>
-      <a href="/developers" class="nav__mlink">Developers</a>
-      <a href="/company" class="nav__mlink">Company</a>
+      <a href="/products/hub/" class="nav__mlink nav__mlink--sub">Corridor Hub</a>
+      <a href="/products/ramp/" class="nav__mlink nav__mlink--sub">Corridor Ramp</a>
+      <a href="/networks/" class="nav__mlink">Networks</a>
+      <a href="/developers/" class="nav__mlink">Developers</a>
+      <a href="/company/" class="nav__mlink">Company</a>
       <span class="nav__mcta"><Button href={LINKS.contact.href} external>Talk to us</Button></span>
     </div>
   </div>

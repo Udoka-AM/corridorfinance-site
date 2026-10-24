@@ -94,7 +94,7 @@ export const LINKS: Record<LinkId, LinkEntry> = {
   },
   rampMultichain: {
     label: 'Corridor Ramp: multichain',
-    href: '/products/ramp#multichain',
+    href: '/products/ramp/#multichain',
     status: 'coming-soon',
     external: false,
     blurb: 'Join the waitlist for additional settlement networks.',

@@ -25,7 +25,7 @@ export const LAYERS = [
     audience: 'The settlement engine',
     body:
       'Payouts execute exactly once, books match the chain, and one reference follows each payment end to end.',
-    href: '/platform',
+    href: '/platform/',
     icon: 'core',
   },
   {
@@ -33,7 +33,7 @@ export const LAYERS = [
     audience: 'For licensed payment companies',
     body:
       'A payout ledger and router they run in their own environment, on their own keys.',
-    href: '/products/hub',
+    href: '/products/hub/',
     icon: 'hub',
   },
   {
@@ -41,7 +41,7 @@ export const LAYERS = [
     audience: 'For apps, agents and merchants',
     body:
       'A hosted API and SDK to send and receive local African currency through licensed partners.',
-    href: '/products/ramp',
+    href: '/products/ramp/',
     icon: 'ramp',
   },
 ] as const;
