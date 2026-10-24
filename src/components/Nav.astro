@@ -50,7 +50,7 @@ const products = [
 
     <div class="nav__right">
       <ThemeToggle />
-      <Button href={LINKS.contact.href} external class="nav__cta">Talk to us</Button>
+      <span class="nav__cta"><Button href={LINKS.contact.href} external>Talk to us</Button></span>
       <button type="button" class="nav__burger" aria-expanded="false" aria-controls="nav-mobile" aria-label="Menu">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -67,7 +67,7 @@ const products = [
       <a href="/networks" class="nav__mlink">Networks</a>
       <a href="/developers" class="nav__mlink">Developers</a>
       <a href="/company" class="nav__mlink">Company</a>
-      <Button href={LINKS.contact.href} external class="nav__mcta">Talk to us</Button>
+      <span class="nav__mcta"><Button href={LINKS.contact.href} external>Talk to us</Button></span>
     </div>
   </div>
 </header>
@@ -221,6 +221,16 @@ const products = [
     display: none;
   }
 
+  .nav__mcta {
+    display: block;
+    margin-top: 18px;
+  }
+
+  .nav__mcta :global(.btn) {
+    width: 100%;
+    justify-content: center;
+  }
+
   /* ---- mobile ---- */
 
   .nav__burger {
@@ -288,11 +298,6 @@ const products = [
   .nav__mlink--sub {
     padding-left: 14px;
     border-left: 2px solid var(--accent-2-graphic);
-  }
-
-  .nav__mcta {
-    margin-top: 18px;
-    justify-content: center;
   }
 
   @media (min-width: 1000px) {

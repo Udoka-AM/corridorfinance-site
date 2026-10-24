@@ -76,7 +76,14 @@ const ogImage = new URL('/og.png', Astro.site ?? 'https://corridorfinance.tech')
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       if (reveals.length > 0 && !reduced && 'IntersectionObserver' in window) {
-        reveals.forEach((el) => el.classList.add('reveal-pending'));
+        /* Anything already on screen when the script runs is above the fold:
+           leave it alone rather than hiding it and fading it back in, which
+           would read as a flash on load. */
+        const pending = [...reveals].filter((el) => {
+          const r = el.getBoundingClientRect();
+          return r.top > window.innerHeight * 0.9;
+        });
+        pending.forEach((el) => el.classList.add('reveal-pending'));
 
         const io = new IntersectionObserver(
           (entries) => {
@@ -91,7 +98,21 @@ const ogImage = new URL('/og.png', Astro.site ?? 'https://corridorfinance.tech')
           { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
         );
 
-        reveals.forEach((el) => io.observe(el));
+        pending.forEach((el) => io.observe(el));
+
+        /* A hash jump (/products/ramp#multichain) can scroll straight past
+           elements before the observer ever sees them. Sweep once the page has
+           settled so nothing is left invisible above the current position. */
+        const sweep = () => {
+          pending.forEach((el) => {
+            if (el.classList.contains('reveal-in')) return;
+            if (el.getBoundingClientRect().top < window.innerHeight) {
+              el.classList.add('reveal-in');
+              io.unobserve(el);
+            }
+          });
+        };
+        window.addEventListener('load', sweep, { once: true });
       }
     </script>
 

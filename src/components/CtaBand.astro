@@ -19,7 +19,7 @@ const {
       <h2 class="cta__head">{heading}</h2>
       {body && <p class="cta__body">{body}</p>}
     </div>
-    <Button href={LINKS.contact.href} external>Talk to us</Button>
+    <span class="cta__btn"><Button href={LINKS.contact.href} external>Talk to us</Button></span>
   </div>
 </section>
 
@@ -47,6 +47,10 @@ const {
     display: grid;
     gap: 24px;
     align-items: center;
+  }
+
+  .cta__btn {
+    justify-self: start;
   }
 
   .cta__head {
