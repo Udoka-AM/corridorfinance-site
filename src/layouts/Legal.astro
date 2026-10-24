@@ -12,8 +12,8 @@ const { title, description, updated } = Astro.props;
 
 <Base title={title} description={description}>
   <section class="section section--tight">
-    <div class="wrap lg" data-reveal>
-      <p class="eyebrow tick-rule">Legal</p>
+    <div class="bleed lg" data-reveal>
+      <p class="eyebrow">Legal</p>
       <h1>{title}</h1>
       <p class="lg__meta mono">Last updated {updated}</p>
 
@@ -49,8 +49,8 @@ const { title, description, updated } = Astro.props;
   .lg__placeholder {
     margin-top: 28px;
     padding: 16px 20px;
-    background: var(--accent-2-wash);
-    border: 1px solid color-mix(in srgb, var(--accent-2-graphic) 35%, var(--line));
+    background: var(--y-50);
+    border: 1px solid color-mix(in srgb, var(--y-500) 35%, var(--line));
     border-radius: var(--radius);
     font-size: 15px;
     line-height: 24px;

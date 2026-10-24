@@ -1,5 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-  <!-- A "C" monogram drawn as an open corridor, with the amber gap money passes through. -->
-  <path d="M25 8.6A11.5 11.5 0 1 0 25 23.4" fill="none" stroke="#0F5C4D" stroke-width="3.4" stroke-linecap="round"/>
-  <path d="M18.5 16H29" fill="none" stroke="#B07900" stroke-width="3.4" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <!-- The Corridor mark: a hub with four spokes converging on it. -->
+  <rect width="24" height="24" fill="#FAFAF8"/>
+  <circle cx="12" cy="12" r="4.2" stroke="#0A0A0A" stroke-width="1.8" fill="none"/>
+  <path d="M1.5 6.5 L8.4 10.6 M1.5 17.5 L8.4 13.4 M22.5 6.5 L15.6 10.6 M22.5 17.5 L15.6 13.4"
+        stroke="#0A0A0A" stroke-width="1.8" stroke-linecap="round" fill="none"/>
 </svg>

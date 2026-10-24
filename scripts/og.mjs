@@ -14,96 +14,92 @@ import { dirname, join } from 'node:path';
 const out = join(dirname(fileURLToPath(import.meta.url)), '..', 'public');
 
 const T = {
-  ink: '#0B1220',
-  inkMuted: '#4A5568',
-  surface: '#FFFFFF',
-  surface2: '#F5F7FA',
-  line: '#E2E8F0',
-  accent: '#0F5C4D',
-  accentWash: '#EEF5F2',
-  amber: '#B07900',
-  amberWash: '#FDF3D4',
+  ink: '#0A0A0A',
+  ink2: '#3D3D3D',
+  muted: '#6B6B6B',
+  surface: '#FAFAF8',
+  surface2: '#F2F2EE',
+  white: '#FFFFFF',
+  line: '#E2E2DC',
+  lineStrong: '#C9C9C1',
+  y300: '#F7CE4B',
+  y400: '#E3B01A',
+  y500: '#B07900',
+  y600: '#8A6300',
+  y50: '#FEFAEC',
 };
 
-const FONT = "'Helvetica Neue', Helvetica, Arial, sans-serif";
-const MONO = "'Menlo', 'DejaVu Sans Mono', monospace";
+/* Space Mono is not installed on build machines and librsvg resolves fonts
+   through fontconfig, so the card falls back to a system monospace. It keeps
+   the mono character of the site even though the exact face differs. */
+const FONT = "'Menlo', 'DejaVu Sans Mono', 'Courier New', monospace";
 
-/* A compact version of the layers diagram for the right-hand side. */
-const diagram = `
-  <g transform="translate(628 118)">
-    <rect x="0.5" y="0.5" width="508" height="394" rx="12" fill="${T.surface2}" stroke="${T.line}"/>
+/* The Corridor mark, at a given scale. */
+const mark = (x, y, scale, stroke) => `
+  <g transform="translate(${x} ${y}) scale(${scale})">
+    <circle cx="12" cy="12" r="4.2" stroke="${stroke}" stroke-width="1.6" fill="none"/>
+    <path d="M1.5 6.5 L8.4 10.6 M1.5 17.5 L8.4 13.4 M22.5 6.5 L15.6 10.6 M22.5 17.5 L15.6 13.4"
+          stroke="${stroke}" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+  </g>`;
 
-    <rect x="20" y="20" width="230" height="86" rx="8" fill="${T.surface}" stroke="${T.line}"/>
-    <text x="38" y="54" font-family="${FONT}" font-size="17" font-weight="600" fill="${T.ink}">Corridor Hub</text>
-    <text x="38" y="78" font-family="${FONT}" font-size="13" fill="${T.inkMuted}">payment companies</text>
+/* A compact version of the hero illustration for the right-hand side. */
+const art = `
+  <g transform="translate(648 150)">
+    <rect x="0.5" y="0.5" width="480" height="330" fill="${T.white}" stroke="${T.line}"/>
 
-    <rect x="259" y="20" width="230" height="86" rx="8" fill="${T.surface}" stroke="${T.line}"/>
-    <text x="277" y="54" font-family="${FONT}" font-size="17" font-weight="600" fill="${T.ink}">Corridor Ramp</text>
-    <text x="277" y="78" font-family="${FONT}" font-size="13" fill="${T.inkMuted}">apps · agents</text>
+    <rect x="24" y="130" width="112" height="70" fill="${T.surface}" stroke="${T.lineStrong}"/>
+    <text x="40" y="160" font-family="${FONT}" font-size="13" font-weight="700" fill="${T.ink}">Stablecoin</text>
+    <text x="40" y="180" font-family="${FONT}" font-size="11" fill="${T.muted}">treasury</text>
 
-    <line x1="0.5" y1="130" x2="508.5" y2="130" stroke="${T.line}"/>
-    <path d="M135 106 V152" stroke="${T.amber}" stroke-width="1.5" stroke-dasharray="5 6"/>
-    <path d="M374 106 V152" stroke="${T.amber}" stroke-width="1.5" stroke-dasharray="5 6"/>
+    <rect x="184" y="112" width="112" height="106" fill="${T.y50}" stroke="${T.y400}"/>
+    ${mark(214, 128, 2.6, T.ink)}
+    <text x="240" y="202" font-family="${FONT}" font-size="12" font-weight="700" fill="${T.ink}" text-anchor="middle">Corridor</text>
 
-    <rect x="20" y="152" width="469" height="86" rx="8" fill="${T.surface}" stroke="#7FA69C"/>
-    <text x="38" y="186" font-family="${FONT}" font-size="17" font-weight="600" fill="${T.ink}">Corridor Core</text>
-    <text x="38" y="210" font-family="${FONT}" font-size="13" fill="${T.inkMuted}">exactly-once settlement, ledger, reconciliation</text>
+    <rect x="344" y="130" width="112" height="70" fill="${T.surface}" stroke="${T.lineStrong}"/>
+    <text x="360" y="160" font-family="${FONT}" font-size="13" font-weight="700" fill="${T.ink}">Local bank</text>
+    <text x="360" y="180" font-family="${FONT}" font-size="11" fill="${T.muted}">account</text>
 
-    <line x1="0.5" y1="262" x2="508.5" y2="262" stroke="${T.line}"/>
-    <path d="M254 238 V286" stroke="${T.amber}" stroke-width="1.5" stroke-dasharray="5 6"/>
+    <path d="M136 165 H184" stroke="${T.y500}" stroke-width="1.5" stroke-dasharray="5 7"/>
+    <path d="M296 165 H344" stroke="${T.y500}" stroke-width="1.5" stroke-dasharray="5 7"/>
 
-    <rect x="20" y="286" width="150" height="50" rx="8" fill="${T.accentWash}" stroke="#8FB8AC"/>
-    <text x="38" y="309" font-family="${FONT}" font-size="14" font-weight="600" fill="${T.ink}">Tempo</text>
-    <circle cx="41" cy="324" r="3" fill="${T.accent}"/>
-    <text x="50" y="328" font-family="${MONO}" font-size="10.5" fill="${T.inkMuted}">Live · Mainnet</text>
+    <rect x="184" y="258" width="112" height="48" fill="${T.surface}" stroke="${T.lineStrong}"/>
+    <text x="240" y="280" font-family="${FONT}" font-size="11" fill="${T.muted}" text-anchor="middle">Licensed</text>
+    <text x="240" y="296" font-family="${FONT}" font-size="11" fill="${T.muted}" text-anchor="middle">partners</text>
+    <path d="M240 218 V258" stroke="${T.y500}" stroke-width="1.5" stroke-dasharray="5 7"/>
 
-    <rect x="180" y="286" width="150" height="50" rx="8" fill="${T.amberWash}" stroke="#D6B775"/>
-    <text x="198" y="309" font-family="${FONT}" font-size="14" font-weight="600" fill="${T.ink}">Stellar</text>
-    <circle cx="201" cy="324" r="3" fill="${T.amber}"/>
-    <text x="210" y="328" font-family="${MONO}" font-size="10.5" fill="${T.inkMuted}">Testnet</text>
-
-    <rect x="340" y="286" width="149" height="50" rx="8" fill="${T.surface}" stroke="${T.line}"/>
-    <text x="358" y="309" font-family="${FONT}" font-size="14" font-weight="600" fill="${T.ink}">Base · Solana</text>
-    <circle cx="361" cy="324" r="3" fill="${T.line}"/>
-    <text x="370" y="328" font-family="${MONO}" font-size="10.5" fill="${T.inkMuted}">routing</text>
-
-    <path d="M254 336 V366" stroke="${T.amber}" stroke-width="1.5" stroke-dasharray="4 5"/>
-    <path d="M248 360 254 368 260 360" fill="none" stroke="${T.amber}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="254" y="388" font-family="${MONO}" font-size="11.5" fill="${T.inkMuted}" text-anchor="middle">licensed partners → local bank accounts</text>
+    <rect x="24" y="28" width="150" height="30" fill="${T.y300}" stroke="${T.y400}"/>
+    <text x="38" y="48" font-family="${FONT}" font-size="11" font-weight="700" letter-spacing="1.4" fill="${T.ink}">EXACTLY ONCE</text>
   </g>`;
 
 const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <rect width="1200" height="630" fill="${T.surface}"/>
-  <rect y="626" width="1200" height="4" fill="${T.accent}"/>
-  <rect y="626" width="200" height="4" fill="${T.amber}"/>
 
-  <g transform="translate(72 96)">
-    <path d="M25 8.6A11.5 11.5 0 1 0 25 23.4" fill="none" stroke="${T.accent}" stroke-width="3.4" stroke-linecap="round"/>
-    <path d="M18.5 16H29" fill="none" stroke="${T.amber}" stroke-width="3.4" stroke-linecap="round"/>
-    <text x="46" y="22" font-family="${FONT}" font-size="21" font-weight="600" fill="${T.ink}">Corridor <tspan fill="${T.inkMuted}" font-weight="500">Finance</tspan></text>
+  <g transform="translate(72 74)">
+    ${mark(0, 0, 1.1, T.ink)}
+    <text x="40" y="20" font-family="${FONT}" font-size="19" font-weight="700" fill="${T.ink}">Corridor <tspan fill="${T.muted}" font-weight="400">Finance</tspan></text>
   </g>
 
-  <text x="72" y="248" font-family="${FONT}" font-size="46" font-weight="600" fill="${T.ink}">Payout infrastructure</text>
-  <text x="72" y="302" font-family="${FONT}" font-size="46" font-weight="600" fill="${T.ink}">for money moving into</text>
-  <text x="72" y="356" font-family="${FONT}" font-size="46" font-weight="600" fill="${T.ink}">and out of Africa.</text>
+  <text x="72" y="178" font-family="${FONT}" font-size="15" letter-spacing="2.6" fill="${T.muted}">[ 01 / CORRIDOR FINANCE ]</text>
 
-  <text x="72" y="418" font-family="${FONT}" font-size="19" fill="${T.inkMuted}">One platform, three layers. Settlement network</text>
-  <text x="72" y="446" font-family="${FONT}" font-size="19" fill="${T.inkMuted}">chosen per corridor.</text>
+  <text x="72" y="262" font-family="${FONT}" font-size="54" font-weight="700" fill="${T.ink}">Payout</text>
+  <text x="72" y="322" font-family="${FONT}" font-size="54" font-weight="700" fill="${T.ink}">infrastructure</text>
+  <text x="72" y="382" font-family="${FONT}" font-size="54" font-weight="700" fill="${T.ink}">for Africa.</text>
 
-  <g transform="translate(72 508)">
-    <rect x="0" y="0" width="12" height="2" fill="${T.amber}"/>
-    <text x="0" y="28" font-family="${MONO}" font-size="13" fill="${T.inkMuted}">corridorfinance.tech</text>
-  </g>
+  <text x="72" y="438" font-family="${FONT}" font-size="17" fill="${T.ink2}">One platform, three layers. The settlement</text>
+  <text x="72" y="464" font-family="${FONT}" font-size="17" fill="${T.ink2}">network that fits each corridor.</text>
 
-  ${diagram}
+  <rect x="72" y="516" width="12" height="3" fill="${T.y400}"/>
+  <text x="72" y="548" font-family="${FONT}" font-size="14" fill="${T.muted}">corridorfinance.tech</text>
+
+  ${art}
+
+  <rect y="624" width="1200" height="6" fill="${T.ink}"/>
+  <rect y="624" width="240" height="6" fill="${T.y300}"/>
 </svg>`;
 
 const icon = `<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
-  <rect width="180" height="180" rx="38" fill="${T.surface}"/>
-  <g transform="translate(26 26) scale(4)">
-    <path d="M25 8.6A11.5 11.5 0 1 0 25 23.4" fill="none" stroke="${T.accent}" stroke-width="3.4" stroke-linecap="round"/>
-    <path d="M18.5 16H29" fill="none" stroke="${T.amber}" stroke-width="3.4" stroke-linecap="round"/>
-  </g>
+  <rect width="180" height="180" fill="${T.surface}"/>
+  ${mark(18, 18, 6, T.ink)}
 </svg>`;
 
 await sharp(Buffer.from(og)).png({ compressionLevel: 9 }).toFile(join(out, 'og.png'));

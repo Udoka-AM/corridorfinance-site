@@ -44,16 +44,54 @@ has one `<h1>`, a title, a description, a canonical and an Open Graph image.
 
 ## Design tokens
 
-Tokens are CSS variables on `:root` in [`src/styles/global.css`](src/styles/global.css), with a
-dark set under both `prefers-color-scheme` and an explicit `data-theme`. Two accents: a deep
-corridor green for identity and action, and an amber for the technical layer — the diagram flow,
-references and section ticks.
+Tokens are CSS variables on `:root` in [`src/styles/global.css`](src/styles/global.css).
+**Light only** — there is no dark mode, no toggle and no `prefers-color-scheme` block.
 
-Amber needs a different value per theme. On a light surface a bright yellow is near-invisible, so
-text and strokes use darker ambers (`--accent-2`, `--accent-2-graphic`) and the bright value
-(`--accent-2-fill`) is reserved for fills that sit under `--accent-2-ink`. `npm run contrast`
-reads the tokens straight out of the stylesheet and checks every pair the site uses, so the
-check cannot drift from the CSS.
+Typeface is **Space Mono** throughout, matching the Corridor console.
+
+The accent is a yellow ramp (`--y-50` to `--y-700`) rather than a single colour, and the steps
+split by job because yellow cannot carry text at the bright end — `#F7CE4B` on the off-white
+page is about 1.6:1:
+
+| Steps | Job |
+| --- | --- |
+| `--y-50` – `--y-300` | Fills and washes. Only ever sit **under** ink, never carry text. |
+| `--y-500` | The lightest step safe for strokes, rules and icons (3:1). |
+| `--y-600` – `--y-700` | The only steps that may carry text (4.5:1). |
+
+Components reach for the semantic aliases (`--accent`, `--accent-text`, `--accent-stroke`,
+`--accent-wash`) rather than raw ramp steps. `npm run contrast` reads the values straight out of
+the stylesheet and checks each pair against the bar for the job it does, so the check cannot
+drift from the CSS.
+
+Layout is **full bleed**: bands run edge to edge and `--pad-x` holds content off the glass, with
+`.measure` capping running text. Hairlines between grid cells are drawn as child borders, not as
+a coloured gap behind the grid — a gap-background shows through any child that is mid-fade,
+which reads as a grey hole while the scroll-in staggers.
+
+### Logos
+
+The Corridor mark (a hub with four spokes) is taken from the Corridor console so the parent
+company and the product read as one brand.
+
+Network logos are the official marks from [`@web3icons/core`](https://www.npmjs.com/package/@web3icons/core),
+the same source the console uses, in its `branded` (full-colour) set. Tempo's and Stellar's brand
+marks are black by design; Base and Solana carry their own colours. `NetworkLogo.astro`
+namespaces any gradient ids per instance, because the same logo renders more than once on a page
+and duplicate ids would make every copy point at the first one's gradient.
+
+### Motion
+
+Named models, all cut by `prefers-reduced-motion`:
+
+| Model | Where |
+| --- | --- |
+| `marquee-l` / `marquee-r` | The counter-scrolling giant type in the CTA band, and the network strip. |
+| `grain` | A faint moving grain over the whole page. |
+| `blink` | Status dots on live badges and the footer pill. |
+| `wire` | Dashes travelling along the flows in the hero illustration. |
+| `rise` | The scroll-in reveal. |
+| `sweep` | A light passing across a button on hover. |
 
 ## Structure
 
