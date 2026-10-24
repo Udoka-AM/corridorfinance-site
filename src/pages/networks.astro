@@ -1,9 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 import Section from '../components/Section.astro';
 import NetworkTable from '../components/NetworkTable.astro';
 import LanesArt from '../components/LanesArt.astro';
-import NetworkCard from '../components/NetworkCard.astro';
 import MarqueeCta from '../components/MarqueeCta.astro';
 ---
 
@@ -11,46 +11,17 @@ import MarqueeCta from '../components/MarqueeCta.astro';
   title="Networks"
   description="Corridor settles each corridor on the network with the best licensed off-ramps for it. Tempo is live on mainnet; Stellar is on testnet."
 >
-  <section class="section section--tight">
-    <div class="bleed lead" data-reveal>
-      <p class="eyebrow">Networks</p>
-      <h1>Settlement networks and status.</h1>
-      <p class="lede">
-        Corridor settles each corridor on the network with the best licensed off-ramps for it.
-      </p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="01 / Networks"
+    title="Settlement networks and status."
+    lede="Each corridor settles on the network with the best licensed off-ramps for it."
+  >
+    <LanesArt slot="art" />
+  </PageHero>
 
-  <Section tight>
+  <Section num="02" eyebrow="Status" band tight>
     <NetworkTable />
   </Section>
 
-  <Section num="02" eyebrow="Lanes" white heading="Same integration, different lane.">
-    <p slot="lede" class="lede">
-      The corridor decides the network, not the other way round.
-    </p>
-    <div class="fig" data-reveal><LanesArt /></div>
-  </Section>
-
-  <Section num="03" eyebrow="Detail" band heading="Network by network.">
-    <div class="grid-3">
-      <NetworkCard networks={['tempo']} />
-      <NetworkCard networks={['stellar']} delay={70} />
-      <NetworkCard networks={['base', 'solana']} delay={140} />
-    </div>
-  </Section>
-
-  <MarqueeCta heading="Need a corridor we have not built yet? Let's talk." />
+  <MarqueeCta />
 </Base>
-
-<style>
-  .fig {
-    max-width: 820px;
-  }
-
-  .lead {
-    display: grid;
-    gap: 18px;
-    max-width: 68ch;
-  }
-</style>

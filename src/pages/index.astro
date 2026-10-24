@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Button from '../components/Button.astro';
 import HeroArt from '../components/HeroArt.astro';
 import NetworkStrip from '../components/NetworkStrip.astro';
+import RetryArt from '../components/RetryArt.astro';
 import Section from '../components/Section.astro';
 import ProductCard from '../components/ProductCard.astro';
 import NetworkCard from '../components/NetworkCard.astro';
@@ -82,12 +83,19 @@ import { HERO, LAYERS, PRINCIPLES } from '../config/content';
   </Section>
 
   <!-- Developers -->
-  <Section num="05" eyebrow="Developers" white tight heading="One API and SDK for local-currency payouts.">
-    <div class="dev" data-reveal>
-      <Button href={LINKS.tempoDocs.href} external>Read the docs</Button>
-      <Button href={LINKS.rampStellarSource.href} external variant="ghost">View on GitHub</Button>
+  <section class="section rule-top band-white">
+    <div class="bleed devband">
+      <div class="devband__text" data-reveal>
+        <p class="eyebrow">05 / Developers</p>
+        <h2 class="devband__h">One API and SDK for local-currency payouts.</h2>
+        <div class="dev">
+          <Button href={LINKS.tempoDocs.href} external>Read the docs</Button>
+          <Button href={LINKS.rampStellarSource.href} external variant="ghost">View on GitHub</Button>
+        </div>
+      </div>
+      <div class="devband__art" data-reveal data-reveal-delay="90"><RetryArt /></div>
     </div>
-  </Section>
+  </section>
 
   <MarqueeCta />
 </Base>
@@ -162,6 +170,38 @@ import { HERO, LAYERS, PRINCIPLES } from '../config/content';
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+  }
+
+  .devband {
+    display: grid;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .devband__text {
+    display: grid;
+    justify-items: start;
+    gap: 22px;
+  }
+
+  .devband__h {
+    max-width: 14ch;
+  }
+
+  .devband__art {
+    width: 100%;
+    max-width: 640px;
+    justify-self: center;
+  }
+
+  @media (min-width: 960px) {
+    .devband {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 56px;
+    }
+    .devband__art {
+      justify-self: end;
+    }
   }
 
   @media (min-width: 1000px) {

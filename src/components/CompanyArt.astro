@@ -1,0 +1,52 @@
+---
+/**
+ * Company: the hub-and-spoke mark made literal, with Abuja at the centre and
+ * the four kinds of party Corridor serves at the corners.
+ */
+const nodes = [
+  { label: 'Operators', x: 28, y: 28, path: 'M178 50 L245 118' },
+  { label: 'Apps', x: 442, y: 28, path: 'M442 50 L375 118' },
+  { label: 'Licensed partners', x: 28, y: 176, path: 'M178 198 L245 182' },
+  { label: 'Agents', x: 442, y: 176, path: 'M442 198 L375 182' },
+];
+---
+
+<figure class="art co">
+  <svg class="art__svg" viewBox="0 0 620 300" aria-hidden="true">
+    <rect class="art__frame" x="0.5" y="0.5" width="619" height="299" />
+
+    {nodes.map((n) => <path class="art__flow" d={n.path} />)}
+
+    {
+      nodes.map((n) => (
+        <g>
+          <rect class="art__box" x={n.x} y={n.y} width="150" height="44" />
+          <text class="art__s" x={n.x + 16} y={n.y + 27}>{n.label}</text>
+        </g>
+      ))
+    }
+
+    <rect class="art__box art__box--key" x="245" y="96" width="130" height="108" />
+    <rect class="art__mark" x="245" y="96" width="34" height="2" />
+    <g transform="translate(288 112) scale(1.8)">
+      <circle cx="12" cy="12" r="4.2" stroke="var(--ink)" stroke-width="1.6" fill="none" />
+      <path
+        d="M1.5 6.5 L8.4 10.6 M1.5 17.5 L8.4 13.4 M22.5 6.5 L15.6 10.6 M22.5 17.5 L15.6 13.4"
+        stroke="var(--ink)"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        fill="none"
+      />
+    </g>
+    <text class="art__t art__mid" x="310" y="180">Abuja</text>
+    <text class="art__k art__mid" x="310" y="196">Nigeria</text>
+
+    <line class="art__div" x1="0.5" y1="248" x2="619.5" y2="248" />
+    <rect class="art__mark" x="28" y="248" width="30" height="2" />
+    <text class="art__k" x="28" y="274">Built in Abuja · 9.08° N, 7.40° E</text>
+  </svg>
+  <figcaption class="art__sr">
+    A hub marked Abuja, Nigeria, connected by four spokes to operators, apps, licensed partners
+    and agents.
+  </figcaption>
+</figure>

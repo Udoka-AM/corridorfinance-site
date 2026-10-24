@@ -1,0 +1,70 @@
+---
+/**
+ * Exactly once: the same payout instruction arrives three times, and one
+ * payout leaves. Shown without code, so nothing here is a claim about an API
+ * shape.
+ */
+const tries = [
+  { y: 78, label: 'CRD-4471 · try 1' },
+  { y: 128, label: 'CRD-4471 · retry' },
+  { y: 178, label: 'CRD-4471 · retry' },
+];
+---
+
+<figure class="art ry">
+  <svg class="art__svg" viewBox="0 0 620 300" aria-hidden="true">
+    <rect class="art__frame" x="0.5" y="0.5" width="619" height="299" />
+    <text class="art__k" x="28" y="36">Same reference, sent three times</text>
+    <line class="art__div" x1="0.5" y1="54" x2="619.5" y2="54" />
+
+    {
+      tries.map((t) => (
+        <g>
+          <rect class="art__box" x="28" y={t.y} width="130" height="40" />
+          <text class="art__s" x="42" y={t.y + 25}>{t.label}</text>
+        </g>
+      ))
+    }
+
+    <path class="art__flow" d="M158 98 C200 98 200 148 236 148" />
+    <path class="art__flow" d="M158 148 H236" />
+    <path class="art__flow" d="M158 198 C200 198 200 148 236 148" />
+
+    <rect class="art__box art__box--key" x="236" y="100" width="148" height="96" />
+    <rect class="art__mark" x="236" y="100" width="34" height="2" />
+    <text class="art__t art__mid" x="310" y="142">Corridor</text>
+    <text class="art__k art__mid" x="310" y="166">one reference</text>
+
+    <path class="art__flow art__flow--slow" d="M384 148 H460" />
+
+    <rect class="art__box" x="460" y="108" width="132" height="80" />
+    <rect class="ry__ok" x="476" y="124" width="16" height="16" />
+    <path class="ry__tick" d="M480 132.4 482.8 135.2 488 129.6" />
+    <text class="art__t" x="476" y="164">Paid once</text>
+    <text class="art__s" x="476" y="180">1 payout</text>
+
+    <line class="art__div" x1="0.5" y1="248" x2="619.5" y2="248" />
+    <rect class="art__mark" x="28" y="248" width="30" height="2" />
+    <text class="art__k" x="28" y="274">A retry never pays twice</text>
+  </svg>
+  <figcaption class="art__sr">
+    The same payout instruction is sent three times with one reference. Corridor recognises the
+    reference and a single payout is made.
+  </figcaption>
+</figure>
+
+<style>
+  .ry__ok {
+    fill: var(--y-300);
+    stroke: var(--y-400);
+    stroke-width: 1;
+  }
+
+  .ry__tick {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>

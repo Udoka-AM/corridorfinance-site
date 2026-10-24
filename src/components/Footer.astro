@@ -5,7 +5,6 @@
  * across the full width, and a bottom bar carrying the legal line.
  */
 import Wordmark from './Wordmark.astro';
-import Button from './Button.astro';
 import { LINKS } from '../config/links';
 
 const year = 2026;
@@ -47,18 +46,6 @@ const columns = [
 ---
 
 <footer class="ft">
-  <!-- CTA row -->
-  <div class="ft__cta bleed">
-    <div>
-      <h2 class="ft__cta-head">Move money into and out of Africa.</h2>
-      <p class="ft__cta-sub">One integration, on the network that fits each corridor.</p>
-    </div>
-    <div class="ft__cta-btns">
-      <Button href={LINKS.contact.href} external>Talk to us</Button>
-      <Button href={LINKS.tempoDocs.href} external variant="ghost">Read the docs</Button>
-    </div>
-  </div>
-
   <!-- brand + columns -->
   <div class="ft__main bleed">
     <div class="ft__brand">
@@ -102,12 +89,11 @@ const columns = [
     <text x="0" y="97" textLength="1000" lengthAdjust="spacing">CORRIDOR FINANCE</text>
   </svg>
 
-  <!-- bottom bar -->
+  <!-- bottom bar: one line -->
   <div class="ft__bottom bleed">
     <p class="ft__legal">
-      Corridor Finance provides software. It is not a bank, custodian or money transmitter, and
-      does not hold customer funds. Fiat payouts are carried out by licensed partners in each
-      corridor. Network availability varies by corridor.
+      Software, not a bank, custodian or money transmitter. No customer funds held; fiat payouts
+      run through licensed partners.
     </p>
     <p class="ft__copy">&copy; {year} Corridor Finance</p>
 
@@ -164,40 +150,6 @@ const columns = [
   .ft > * {
     position: relative;
     z-index: 1;
-  }
-
-  .ft__cta {
-    display: grid;
-    gap: 22px;
-    padding-block: 56px;
-    border-bottom: 1px solid var(--ft-line);
-  }
-
-  .ft__cta-head {
-    font-size: clamp(22px, 2.6vw, 34px);
-    max-width: 20ch;
-  }
-
-  .ft__cta-sub {
-    margin-top: 10px;
-    font-size: 13px;
-    color: var(--ft-muted);
-  }
-
-  .ft__cta-btns {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  /* The ghost button needs the footer's own border and text colours. */
-  .ft__cta-btns :global(.btn--ghost) {
-    border-color: var(--ft-line);
-    color: var(--ft-ink);
-  }
-
-  .ft__cta-btns :global(.btn--ghost:hover) {
-    border-color: var(--ft-ink-2);
   }
 
   .ft__main {
@@ -316,7 +268,6 @@ const columns = [
     font-size: 11px;
     line-height: 19px;
     color: var(--ft-muted);
-    max-width: 92ch;
   }
 
   .ft__copy {
@@ -332,12 +283,6 @@ const columns = [
   }
 
   @media (min-width: 900px) {
-    .ft__cta {
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 48px;
-      padding-block: 64px;
-    }
     .ft__main {
       grid-template-columns: 1fr 2fr;
       gap: 64px;
@@ -347,6 +292,7 @@ const columns = [
       grid-template-columns: 1fr auto;
       align-items: center;
       gap: 32px;
+      padding-block: 20px 22px;
     }
   }
 </style>

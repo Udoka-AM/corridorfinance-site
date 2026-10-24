@@ -1,8 +1,9 @@
 ---
 /**
- * Two giant lines of type scrolling in opposite directions, bleeding past both
- * edges, then the offer beneath. Borrowed from the Corridor console's
- * "Settle the corridor / Become a spoke" band.
+ * The one closing statement on the site: two giant lines scrolling in opposite
+ * directions, bleeding past both edges, then a single sentence and a single
+ * button. Borrowed from the Corridor console's "Settle the corridor / Become a
+ * spoke" band.
  *
  * Each line repeats its phrase enough times to overflow the widest viewport,
  * and the track translates by exactly -50% so the loop never shows a seam.
@@ -10,24 +11,8 @@
 import Button from './Button.astro';
 import { LINKS } from '../config/links';
 
-interface Props {
-  lineOne?: string;
-  lineTwo?: string;
-  heading?: string;
-  body?: string;
-  cta?: string;
-  href?: string;
-}
-
-const {
-  lineOne = 'Settle the corridor',
-  lineTwo = 'Become a spoke',
-  heading = 'Start read-only. Move money when ready.',
-  body =
-    'Point Corridor at the wallets you already run and let it watch and reconcile before anything moves. Licensed partners handle the fiat; you keep your keys.',
-  cta = 'Talk to us',
-  href = LINKS.contact.href,
-} = Astro.props;
+const lineOne = 'Settle the corridor';
+const lineTwo = 'Become a spoke';
 
 const REPEATS = 6;
 const one = Array.from({ length: REPEATS }, () => lineOne);
@@ -49,11 +34,8 @@ const two = Array.from({ length: REPEATS }, () => lineTwo);
   </div>
 
   <div class="mq__offer bleed">
-    <div class="mq__text">
-      <h2 class="mq__head">{heading}</h2>
-      <p class="mq__body">{body}</p>
-    </div>
-    <span class="mq__btn"><Button href={href} external>{cta}</Button></span>
+    <h2 class="mq__head">Moving money into or out of Africa? Let's talk.</h2>
+    <span class="mq__btn"><Button href={LINKS.contact.href} external>Talk to us</Button></span>
   </div>
 </section>
 
@@ -67,7 +49,6 @@ const two = Array.from({ length: REPEATS }, () => lineTwo);
 
   .mq__lines {
     display: grid;
-    gap: 0;
     user-select: none;
   }
 
@@ -83,6 +64,7 @@ const two = Array.from({ length: REPEATS }, () => lineTwo);
     letter-spacing: -0.06em;
     line-height: 1.08;
     white-space: nowrap;
+    will-change: transform;
   }
 
   .mq__track--l {
@@ -113,23 +95,15 @@ const two = Array.from({ length: REPEATS }, () => lineTwo);
 
   .mq__offer {
     display: grid;
-    gap: 26px;
-    padding-block: 64px 72px;
-    margin-top: 48px;
+    gap: 24px;
+    padding-block: 48px 56px;
+    margin-top: 40px;
     border-top: 1px solid color-mix(in srgb, var(--surface) 16%, transparent);
   }
 
   .mq__head {
     font-size: clamp(22px, 2.6vw, 34px);
-    max-width: 22ch;
-  }
-
-  .mq__body {
-    margin-top: 14px;
-    font-size: 14px;
-    line-height: 26px;
-    color: color-mix(in srgb, var(--surface) 68%, transparent);
-    max-width: 56ch;
+    max-width: 24ch;
   }
 
   .mq__btn {

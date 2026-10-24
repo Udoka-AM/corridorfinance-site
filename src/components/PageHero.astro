@@ -1,0 +1,82 @@
+---
+/**
+ * The hero for every inner page: a short statement on the left, a figure on
+ * the right, so the page is balanced edge to edge instead of leaving the right
+ * half empty. Stacks on narrow screens, figure below the text.
+ */
+interface Props {
+  eyebrow: string;
+  title: string;
+  lede?: string;
+}
+
+const { eyebrow, title, lede } = Astro.props;
+---
+
+<section class="ph">
+  <div class="bleed ph__in">
+    <div class="ph__text" data-reveal>
+      <p class="eyebrow">{eyebrow}</p>
+      <h1 class="ph__h1">{title}</h1>
+      {lede && <p class="lede">{lede}</p>}
+      <div class="ph__cta"><slot name="cta" /></div>
+    </div>
+    <div class="ph__art" data-reveal data-reveal-delay="90">
+      <slot name="art" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .ph {
+    padding-block: 48px 64px;
+  }
+
+  .ph__in {
+    display: grid;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .ph__text {
+    display: grid;
+    justify-items: start;
+    gap: 20px;
+  }
+
+  /* Smaller than the home hero: inner pages lead with a figure, and a 90px
+     headline beside it wraps to six lines. */
+  .ph__h1 {
+    font-size: clamp(32px, 4.4vw, 62px);
+    max-width: 16ch;
+  }
+
+  .ph__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .ph__cta:empty {
+    display: none;
+  }
+
+  .ph__art {
+    width: 100%;
+    max-width: 640px;
+    justify-self: center;
+  }
+
+  @media (min-width: 960px) {
+    .ph {
+      padding-block: 72px 88px;
+    }
+    .ph__in {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 56px;
+    }
+    .ph__art {
+      justify-self: end;
+    }
+  }
+</style>

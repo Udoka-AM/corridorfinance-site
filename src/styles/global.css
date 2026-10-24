@@ -607,3 +607,32 @@ a {
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+/* ======================================================= partial rows === */
+
+/* A grid of three that ends on one or two cards leaves an empty cell and a
+   lopsided edge. Let the last card absorb the gap, and draw the row rules as
+   child borders so every row, not only the last, is divided. */
+@media (min-width: 1000px) {
+  .grid-3 {
+    border-bottom: 0;
+  }
+
+  .grid-3 > * {
+    border-bottom: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+  }
+
+  .grid-3 > *:nth-child(3n),
+  .grid-3 > *:last-child {
+    border-right: 0;
+  }
+
+  .grid-3 > *:last-child:nth-child(3n + 2) {
+    grid-column: span 2;
+  }
+
+  .grid-3 > *:last-child:nth-child(3n + 1) {
+    grid-column: span 3;
+  }
+}

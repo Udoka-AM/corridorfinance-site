@@ -1,36 +1,25 @@
 ---
 import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
 import Section from '../../components/Section.astro';
 import CapabilityList from '../../components/CapabilityList.astro';
 import LedgerArt from '../../components/LedgerArt.astro';
 import LinkCard from '../../components/LinkCard.astro';
 import StatusBadge from '../../components/StatusBadge.astro';
-import Button from '../../components/Button.astro';
+import NetworkLogo from '../../components/NetworkLogo.astro';
 import MarqueeCta from '../../components/MarqueeCta.astro';
-import { LINKS } from '../../config/links';
+import { NETWORKS, type LinkId, type NetworkId } from '../../config/links';
 
 const capabilities = [
-  {
-    title: 'Exactly-once payouts',
-    body: 'A retry, a restart or a duplicate instruction never pays twice.',
-  },
-  {
-    title: 'One set of books that matches the chain',
-    body: 'Every movement and every fee is accounted for, against what actually settled.',
-  },
-  {
-    title: 'One reference from treasury to bank narration',
-    body: 'The same reference follows a payment the whole way, so a query has one answer.',
-  },
-  {
-    title: 'A read-only start',
-    body: 'Point it at existing wallets and let it watch and reconcile before anything moves.',
-  },
+  { title: 'Exactly-once payouts', body: 'A retry never pays twice.' },
+  { title: 'One set of books', body: 'Matches the chain, line by line.' },
+  { title: 'One reference', body: 'From treasury to bank narration.' },
+  { title: 'A read-only start', body: 'Watch existing wallets before anything moves.' },
 ];
 
-const availability = [
-  { network: 'Tempo network', status: 'live-mainnet' as const, links: ['tempoConsole', 'tempoDocs', 'tempoSource'] as const },
-  { network: 'Stellar network', status: 'testnet' as const, links: ['hubStellarSource'] as const },
+const availability: { net: NetworkId; links: LinkId[] }[] = [
+  { net: 'tempo', links: ['tempoConsole', 'tempoDocs', 'tempoSource'] },
+  { net: 'stellar', links: ['hubStellarSource'] },
 ];
 ---
 
@@ -38,49 +27,30 @@ const availability = [
   title="Corridor Hub"
   description="The payout ledger and router licensed payment companies run on their own keys."
 >
-  <section class="section section--tight">
-    <div class="bleed lead" data-reveal>
-      <p class="eyebrow">Product</p>
-      <h1>Corridor Hub</h1>
-      <p class="lede">
-        The payout ledger and router licensed payment companies run on their own keys.
-      </p>
-      <div class="lead__cta">
-        <Button href={LINKS.contact.href} external>Talk to us</Button>
-        <Button href="/platform/" variant="secondary">How the layers fit</Button>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="01 / Product"
+    title="Corridor Hub"
+    lede="The payout ledger and router licensed payment companies run on their own keys."
+  >
+    <LedgerArt slot="art" />
+  </PageHero>
 
   <Section num="02" eyebrow="Capabilities" band heading="What the Hub does.">
     <CapabilityList items={capabilities} />
   </Section>
 
-  <Section num="03" eyebrow="Reconciliation" white heading="Books that match the chain.">
-    <p slot="lede" class="lede">
-      Every payout carries one reference, so a line in your books and a movement on the chain are
-      the same fact seen twice.
-    </p>
-    <div class="fig" data-reveal><LedgerArt /></div>
-  </Section>
-
-  <Section num="04" eyebrow="Availability" heading="Where the Hub runs.">
-    <p slot="lede" class="lede">
-      The Tempo deployment is live on mainnet. The Stellar build is on testnet and has not settled
-      on mainnet.
-    </p>
+  <Section num="03" eyebrow="Availability" heading="Where the Hub runs.">
     <div class="av">
       {
         availability.map((a, ai) => (
           <div class="av__group" data-reveal data-reveal-delay={ai * 80}>
             <div class="av__head">
-              <h3 class="av__net">{a.network}</h3>
-              <StatusBadge status={a.status} />
+              <NetworkLogo network={a.net} size={24} />
+              <h3 class="av__net">{NETWORKS[a.net].name}</h3>
+              <StatusBadge status={NETWORKS[a.net].status} />
             </div>
-            <div class="grid-3 av__cards">
-              {a.links.map((id, i) => (
-                <LinkCard id={id} delay={i * 50} />
-              ))}
+            <div class="grid-3">
+              {a.links.map((id, i) => <LinkCard id={id} delay={i * 50} />)}
             </div>
           </div>
         ))
@@ -88,30 +58,13 @@ const availability = [
     </div>
   </Section>
 
-  <MarqueeCta heading="Run payouts on your own keys. Let's talk." />
+  <MarqueeCta />
 </Base>
 
 <style>
-  .fig {
-    max-width: 820px;
-  }
-
-  .lead {
-    display: grid;
-    gap: 18px;
-    max-width: 68ch;
-  }
-
-  .lead__cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 6px;
-  }
-
   .av {
     display: grid;
-    gap: 48px;
+    gap: 44px;
   }
 
   .av__head {
@@ -120,12 +73,11 @@ const availability = [
     gap: 12px;
     flex-wrap: wrap;
     padding-bottom: 14px;
-    margin-bottom: 24px;
+    margin-bottom: 22px;
     border-bottom: 1px solid var(--line);
   }
 
   .av__net {
-    font-size: 19px;
-    line-height: 28px;
+    font-size: 18px;
   }
 </style>

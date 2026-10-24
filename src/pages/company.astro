@@ -1,8 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 import Section from '../components/Section.astro';
 import PrincipleTile from '../components/PrincipleTile.astro';
-import Button from '../components/Button.astro';
+import CompanyArt from '../components/CompanyArt.astro';
+import MarqueeCta from '../components/MarqueeCta.astro';
 import { LINKS } from '../config/links';
 import { PRINCIPLES } from '../config/content';
 ---
@@ -11,44 +13,47 @@ import { PRINCIPLES } from '../config/content';
   title="Company"
   description="Corridor Finance is building payout infrastructure for Africa's cross-border money movement, from Abuja, Nigeria."
 >
-  <section class="section section--tight">
-    <div class="bleed lead" data-reveal>
-      <p class="eyebrow">Company</p>
-      <h1>About Corridor Finance.</h1>
-      <p class="lede">
-        Corridor Finance is building payout infrastructure for Africa's cross-border money
-        movement, from Abuja, Nigeria.
-      </p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="01 / Company"
+    title="About Corridor Finance."
+    lede="Building payout infrastructure for Africa's cross-border money movement, from Abuja, Nigeria."
+  >
+    <CompanyArt slot="art" />
+  </PageHero>
 
-  <Section band eyebrow="Founder" heading="Who is building it." tight>
-    <div class="card fo" data-reveal>
-      <!--
-        PLACEHOLDER: confirm this bio with Udoka before the site goes live.
-        Keep it to one line and keep it checkable.
-      -->
-      <div class="fo__id">
+  <Section num="02" eyebrow="Founder and contact" band tight>
+    <div class="duo">
+      <div class="card fo" data-reveal>
+        <!--
+          PLACEHOLDER: confirm this bio with Udoka before the site goes live.
+          Keep it to one line and keep it checkable.
+        -->
+        <p class="eyebrow">Founder</p>
         <h3 class="fo__name">Udoka A. M.</h3>
-        <p class="fo__role">Founder</p>
+        <p class="fo__bio">
+          Builds payments infrastructure for African corridors, and shipped the settlement engine
+          behind Corridor's first mainnet payout.
+        </p>
+        <div class="fo__links">
+          <a href={LINKS.founderSite.href} target="_blank" rel="noopener noreferrer">
+            {LINKS.founderSite.label} ↗
+          </a>
+          <a href={LINKS.founderGithub.href} target="_blank" rel="noopener noreferrer">
+            {LINKS.founderGithub.label} ↗
+          </a>
+        </div>
       </div>
-      <p class="fo__bio">
-        Builds payments infrastructure for African corridors, and has shipped the settlement
-        engine that made Corridor's first mainnet payout.
-      </p>
-      <div class="fo__links">
-        <a href={LINKS.founderSite.href} target="_blank" rel="noopener noreferrer">
-          {LINKS.founderSite.label}
-        </a>
-        <a href={LINKS.founderGithub.href} target="_blank" rel="noopener noreferrer">
-          {LINKS.founderGithub.label}
-        </a>
+
+      <div class="card fo" data-reveal data-reveal-delay="80">
+        <p class="eyebrow">Contact</p>
+        <h3 class="fo__name">Partnerships, corridors, integrations.</h3>
+        <a class="fo__addr" href={LINKS.contact.href}>{LINKS.contact.label} ↗</a>
       </div>
     </div>
   </Section>
 
-  <Section eyebrow="Principles" heading="How we build.">
-    <div class="grid-2">
+  <Section num="03" eyebrow="Principles" heading="How we build.">
+    <div class="grid-4">
       {
         PRINCIPLES.map((p, i) => (
           <PrincipleTile title={p.title} body={p.body} icon={p.icon} index={i + 1} delay={i * 60} />
@@ -57,88 +62,56 @@ import { PRINCIPLES } from '../config/content';
     </div>
   </Section>
 
-  <Section band eyebrow="Contact" heading="Get in touch." tight>
-    <div class="ct" data-reveal>
-      <p class="ct__body">
-        For partnerships, corridors and integrations, email us and we will come back to you.
-      </p>
-      <div class="ct__row">
-        <Button href={LINKS.contact.href} external>Talk to us</Button>
-        <span class="ct__addr mono">{LINKS.contact.label}</span>
-      </div>
-      <p class="ct__legal small">
-        Corridor Finance provides software. It is not a bank, custodian or money transmitter, and
-        does not hold customer funds. Licensed payment partners handle fiat in each corridor.
-      </p>
-    </div>
-  </Section>
+  <MarqueeCta />
 </Base>
 
 <style>
-  .lead {
+  .duo {
     display: grid;
-    gap: 18px;
-    max-width: 68ch;
+    gap: 20px;
   }
 
   .fo {
     display: grid;
-    gap: 12px;
-    max-width: 560px;
+    align-content: start;
+    gap: 14px;
+    padding: 30px 26px;
   }
 
   .fo__name {
-    font-size: 19px;
-    line-height: 28px;
-  }
-
-  .fo__role {
-    font-family: var(--font-mono);
-    font-size: 11.5px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--y-600);
-    margin-top: 2px;
+    font-size: clamp(18px, 1.8vw, 24px);
   }
 
   .fo__bio {
-    color: var(--ink-muted);
-    font-size: 16px;
-    line-height: 26px;
+    font-size: 13.5px;
+    line-height: 24px;
+    color: var(--ink-2);
+    max-width: 48ch;
   }
 
   .fo__links {
     display: flex;
-    gap: 18px;
-    font-size: 14px;
-    padding-top: 6px;
+    gap: 20px;
+    font-size: 12px;
+    margin-top: 4px;
   }
 
-  .ct {
-    display: grid;
-    gap: 18px;
-    max-width: 62ch;
+  .fo__links a {
+    border-bottom: 1px solid var(--y-400);
+    padding-bottom: 1px;
   }
 
-  .ct__body {
-    color: var(--ink-muted);
+  .fo__addr {
+    justify-self: start;
+    font-size: 13px;
+    color: var(--accent-text);
+    border-bottom: 1px solid var(--y-400);
+    padding-bottom: 1px;
   }
 
-  .ct__row {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    flex-wrap: wrap;
-  }
-
-  .ct__addr {
-    font-size: 14px;
-    color: var(--ink-muted);
-  }
-
-  .ct__legal {
-    color: var(--ink-muted);
-    padding-top: 16px;
-    border-top: 1px solid var(--line);
+  @media (min-width: 860px) {
+    .duo {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 </style>

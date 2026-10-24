@@ -1,0 +1,88 @@
+---
+/**
+ * Developers: where each piece actually runs. Built from links.ts, so a status
+ * change there redraws this figure too and it can never disagree with the
+ * cards below it.
+ */
+import NetworkLogo from './NetworkLogo.astro';
+import { LINKS, NETWORKS, STATUS, type LinkId, type NetworkId } from '../config/links';
+
+const rows: { net: NetworkId; items: { id: LinkId; label: string }[] }[] = [
+  {
+    net: 'tempo',
+    items: [
+      { id: 'tempoConsole', label: 'Console' },
+      { id: 'tempoDocs', label: 'Docs' },
+      { id: 'tempoSource', label: 'Source' },
+    ],
+  },
+  {
+    net: 'stellar',
+    items: [
+      { id: 'hubStellarSource', label: 'Hub source' },
+      { id: 'rampStellarSource', label: 'API + SDK' },
+    ],
+  },
+];
+---
+
+<figure class="art sf">
+  <svg class="art__svg" viewBox="0 0 620 300" aria-hidden="true">
+    <rect class="art__frame" x="0.5" y="0.5" width="619" height="299" />
+    <text class="art__k" x="28" y="36">Where it runs</text>
+    <line class="art__div" x1="0.5" y1="54" x2="619.5" y2="54" />
+
+    {
+      rows.map((r, ri) => {
+        const y = 82 + ri * 84;
+        const n = NETWORKS[r.net];
+        return (
+          <g>
+            <g transform={`translate(28 ${y + 4})`}>
+              <foreignObject width="24" height="24">
+                <NetworkLogo network={r.net} size={24} />
+              </foreignObject>
+            </g>
+            <text class="art__t" x="62" y={y + 14}>{n.name}</text>
+            <text class="art__k" x="62" y={y + 32}>{STATUS[n.status].label}</text>
+
+            {r.items.map((it, i) => {
+              const live = STATUS[LINKS[it.id].status].variant === 'solid';
+              const x = 214 + i * 126;
+              return (
+                <g>
+                  <rect class={live ? 'sf__chip sf__chip--live' : 'sf__chip'} x={x} y={y} width="114" height="40" />
+                  <text class="art__k art__mid" x={x + 57} y={y + 24}>{it.label}</text>
+                </g>
+              );
+            })}
+          </g>
+        );
+      })
+    }
+
+    <path class="art__flow art__flow--slow" d="M28 232 H592" />
+    <line class="art__div" x1="0.5" y1="248" x2="619.5" y2="248" />
+    <rect class="art__mark" x="28" y="248" width="30" height="2" />
+    <text class="art__k" x="28" y="274">Filled is live · dashed is testnet</text>
+  </svg>
+  <figcaption class="art__sr">
+    Where each piece runs: the Tempo console, docs and source are live; the Stellar Hub source and
+    the Ramp API and SDK are on testnet.
+  </figcaption>
+</figure>
+
+<style>
+  .sf__chip {
+    fill: var(--surface-3);
+    stroke: var(--y-500);
+    stroke-width: 1;
+    stroke-dasharray: 4 3;
+  }
+
+  .sf__chip--live {
+    fill: var(--y-300);
+    stroke: var(--y-400);
+    stroke-dasharray: none;
+  }
+</style>

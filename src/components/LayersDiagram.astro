@@ -152,9 +152,17 @@ const chips = [
 </figure>
 
 <style>
+  /* The figure now sits in a half-width hero column on desktop, so which
+     drawing to show depends on the room the figure actually has, not on the
+     viewport. A container query keeps the 920-wide drawing from being shrunk
+     until its labels are unreadable. */
+  .dg {
+    container-type: inline-size;
+  }
+
   .dg__tall {
     display: none;
-    max-width: 360px;
+    max-width: 420px;
     margin-inline: auto;
   }
 
@@ -181,7 +189,7 @@ const chips = [
     stroke: var(--line-strong);
   }
 
-  @media (max-width: 760px) {
+  @container (max-width: 699px) {
     .dg__wide {
       display: none;
     }

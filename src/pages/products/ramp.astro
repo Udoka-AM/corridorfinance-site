@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
 import Section from '../../components/Section.astro';
 import CapabilityList from '../../components/CapabilityList.astro';
 import RampArt from '../../components/RampArt.astro';
@@ -11,24 +12,13 @@ import MarqueeCta from '../../components/MarqueeCta.astro';
 import { LINKS } from '../../config/links';
 
 const capabilities = [
-  {
-    title: 'Hosted API and TypeScript SDK',
-    body: 'One integration to send and receive local currency, with typed clients.',
-  },
+  { title: 'Hosted API and TypeScript SDK', body: 'One integration, typed clients.' },
   {
     title: 'Sponsored accounts and trustlines, with your wallet or ours',
-    body:
-      'Your app brings its own signer, or uses one Corridor provides. Corridor sponsors the ' +
-      'account and its asset trustline, and covers the network fee.',
+    body: 'Bring your own signer. Corridor sponsors the account, the trustline and the fee.',
   },
-  {
-    title: 'Payouts and collections',
-    body: 'Money out to a local bank account, and money in from one, through licensed partners.',
-  },
-  {
-    title: 'Built for agents as well as apps',
-    body: 'The same API serves an autonomous agent and a product with a user interface.',
-  },
+  { title: 'Payouts and collections', body: 'Out to a bank account, and in from one.' },
+  { title: 'Built for agents as well as apps', body: 'The same API serves both.' },
 ];
 ---
 
@@ -36,99 +26,76 @@ const capabilities = [
   title="Corridor Ramp"
   description="Send and receive local African currency from any app, agent or merchant, through licensed partners."
 >
-  <section class="section section--tight">
-    <div class="bleed lead" data-reveal>
-      <p class="eyebrow">Product</p>
-      <h1>Corridor Ramp</h1>
-      <p class="lede">
-        Send and receive local African currency from any app, agent or merchant, through licensed
-        partners.
-      </p>
-      <div class="lead__cta">
-        <Button href={LINKS.rampStellarSource.href} external>View the API and SDK</Button>
-        <Button href={LINKS.contact.href} external variant="secondary">Talk to us</Button>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="01 / Product"
+    title="Corridor Ramp"
+    lede="Send and receive local African currency from any app, agent or merchant, through licensed partners."
+  >
+    <Button slot="cta" href={LINKS.rampStellarSource.href} external>View the API and SDK</Button>
+    <RampArt slot="art" />
+  </PageHero>
 
   <Section num="02" eyebrow="Capabilities" band heading="What the Ramp does.">
     <CapabilityList items={capabilities} />
   </Section>
 
-  <Section num="03" eyebrow="Integration" white heading="One API, whatever is calling it.">
-    <p slot="lede" class="lede">
-      An app, an autonomous agent and a merchant all reach the same endpoint, and local currency
-      lands in a bank account through licensed partners.
-    </p>
-    <div class="fig" data-reveal><RampArt /></div>
-  </Section>
+  <!-- Pricing: three cells running the full width, no numbers. -->
+  <section class="rule-top">
+    <div class="cells price" data-reveal>
+      <div>
+        <span class="num">01</span>
+        <p class="price__t">Platform fee</p>
+      </div>
+      <div>
+        <span class="num">02</span>
+        <p class="price__t">A small share of volume</p>
+      </div>
+      <div>
+        <span class="num">03</span>
+        <p class="price__t">Talk to us for details</p>
+      </div>
+    </div>
+  </section>
 
-  <Section num="04" eyebrow="Pricing" heading="How it is priced." tight>
-    <p class="price" data-reveal>
-      Platform fee plus a small share of volume. Talk to us for details.
-    </p>
-  </Section>
-
-  <Section num="05" eyebrow="Availability" heading="Where the Ramp runs.">
-    <div class="av">
-      <div class="av__group" data-reveal>
-        <div class="av__head">
-          <h3 class="av__net">Ramp on Stellar</h3>
-          <StatusBadge status="testnet" />
-        </div>
-        <div class="grid-3">
-          <LinkCard id="rampStellarSource" />
-        </div>
+  <Section num="03" eyebrow="Availability" heading="Where the Ramp runs.">
+    <div class="av" data-reveal>
+      <div class="av__head">
+        <h3 class="av__net">Ramp on Stellar</h3>
+        <StatusBadge status="testnet" />
+      </div>
+      <div class="grid-3">
+        <LinkCard id="rampStellarSource" />
       </div>
     </div>
   </Section>
 
-  <Section num="06" band id="multichain" eyebrow="Roadmap" heading="Ramp multichain.">
-    <p slot="lede" class="lede">
-      Additional settlement networks, chosen the same way: wherever the licensed off-ramps for a
-      corridor are strongest. Tell us which networks matter to you and we will come back to you
-      when they are ready.
-    </p>
+  <Section num="04" band id="multichain" eyebrow="Roadmap" heading="Ramp multichain.">
+    <p slot="lede" class="lede">Join the waitlist for additional settlement networks.</p>
     <div class="mc" data-reveal>
-      <div class="mc__badge">
-        <StatusBadge status="coming-soon" />
-      </div>
+      <div class="mc__badge"><StatusBadge status="coming-soon" /></div>
       <WaitlistForm />
     </div>
   </Section>
 
-  <MarqueeCta heading="Building something that pays out in Africa? Let's talk." />
+  <MarqueeCta />
 </Base>
 
 <style>
-  .fig {
-    max-width: 820px;
-  }
-
-  .lead {
-    display: grid;
-    gap: 18px;
-    max-width: 68ch;
-  }
-
-  .lead__cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 6px;
-  }
-
   .price {
-    font-size: 19px;
-    line-height: 30px;
-    max-width: 54ch;
-    padding-left: 20px;
-    border-left: 2px solid var(--y-500);
+    border-top: 0;
   }
 
-  .av {
+  .price > * {
     display: grid;
-    gap: 48px;
+    gap: 10px;
+    padding-block: 34px;
+  }
+
+  .price__t {
+    font-size: clamp(18px, 2vw, 26px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
   }
 
   .av__head {
@@ -137,18 +104,17 @@ const capabilities = [
     gap: 12px;
     flex-wrap: wrap;
     padding-bottom: 14px;
-    margin-bottom: 24px;
+    margin-bottom: 22px;
     border-bottom: 1px solid var(--line);
   }
 
   .av__net {
-    font-size: 19px;
-    line-height: 28px;
+    font-size: 18px;
   }
 
   .mc {
     display: grid;
     gap: 18px;
-    max-width: 760px;
+    max-width: 880px;
   }
 </style>
