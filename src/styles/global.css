@@ -48,6 +48,14 @@
   --accent-wash: var(--y-50);
   --accent-wash-2: var(--y-100);
 
+  /* footer: a dark textured block continuing the marquee band above it */
+  --ft-bg: #121210;
+  --ft-bg-2: #1b1b18;
+  --ft-ink: #f4f4f0;
+  --ft-ink-2: #b8b8ae;
+  --ft-muted: #8f8f85;
+  --ft-line: #2e2e29;
+
   --radius: 2px;
   --radius-pill: 999px;
 
@@ -460,4 +468,142 @@ a {
   .grid-4 > *:last-child {
     border-right: 0;
   }
+}
+
+/* ============================================================ artwork === */
+
+/* Shared vocabulary for every figure on the site, so the illustrations read
+   as one set: square corners, 1.5px strokes, Space Mono labels, a hairline
+   grid backdrop, and yellow reserved for things that move or matter. */
+
+.art {
+  margin: 0;
+}
+
+.art__svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* frame + backdrop */
+.art__frame {
+  fill: var(--surface-3);
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.art__grid-line {
+  stroke: var(--line);
+  stroke-width: 1;
+  fill: none;
+}
+
+.art__div {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+/* boxes */
+.art__box {
+  fill: var(--surface);
+  stroke: var(--line-strong);
+  stroke-width: 1;
+}
+
+.art__box--key {
+  fill: var(--y-50);
+  stroke: var(--y-400);
+}
+
+.art__box--ink {
+  fill: var(--ink);
+  stroke: var(--ink);
+}
+
+/* type */
+.art__t {
+  fill: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.art__s {
+  fill: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.art__k {
+  fill: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.art__t--on-ink {
+  fill: var(--surface);
+}
+
+.art__s--on-ink {
+  fill: color-mix(in srgb, var(--surface) 62%, transparent);
+}
+
+.art__mid {
+  text-anchor: middle;
+}
+
+.art__end {
+  text-anchor: end;
+}
+
+/* flows: a dashed line that travels */
+.art__flow {
+  fill: none;
+  stroke: var(--y-500);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 8;
+  animation: wire 0.9s linear infinite;
+}
+
+.art__flow--slow {
+  animation-duration: 1.6s;
+}
+
+.art__flow--still {
+  animation: none;
+}
+
+.art__arrow {
+  fill: none;
+  stroke: var(--y-500);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* a solid accent mark: ticks, underlines, highlights */
+.art__mark {
+  fill: var(--y-300);
+}
+
+.art__stroke {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* visually-hidden description standing in for the graphic */
+.art__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }

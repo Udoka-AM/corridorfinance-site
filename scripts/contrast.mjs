@@ -74,6 +74,16 @@ const PAIRS = [
   ['--ink', '--y-50', 4.5, 'ink on wash'],
   ['--ink', '--y-400', 4.5, 'ink on deep fill'],
 
+  // the dark footer block
+  ['--ft-ink', '--ft-bg', 4.5, 'footer text'],
+  ['--ft-ink', '--ft-bg-2', 4.5, 'footer text on raised panel'],
+  ['--ft-ink-2', '--ft-bg', 4.5, 'footer secondary text'],
+  ['--ft-ink-2', '--ft-bg-2', 4.5, 'footer secondary on raised panel'],
+  ['--ft-muted', '--ft-bg', 4.5, 'footer column headings'],
+  ['--y-300', '--ft-bg', 4.5, 'yellow text in footer'],
+  ['--ink', '--y-300', 4.5, 'ink on yellow button in footer'],
+  ['--ft-line', '--ft-bg', 1.2, 'footer hairline (decorative only)'],
+
   // non-text: strokes, rules, icons (WCAG 1.4.11)
   ['--y-500', '--surface', 3, 'accent stroke on page'],
   ['--y-500', '--surface-2', 3, 'accent stroke on band'],
