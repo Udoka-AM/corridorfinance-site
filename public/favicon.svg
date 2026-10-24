@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- A "C" monogram drawn as an open corridor, with the amber gap money passes through. -->
+  <path d="M25 8.6A11.5 11.5 0 1 0 25 23.4" fill="none" stroke="#0F5C4D" stroke-width="3.4" stroke-linecap="round"/>
+  <path d="M18.5 16H29" fill="none" stroke="#B07900" stroke-width="3.4" stroke-linecap="round"/>
+</svg>
