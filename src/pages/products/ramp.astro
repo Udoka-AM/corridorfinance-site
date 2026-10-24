@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
 import CapabilityList from '../../components/CapabilityList.astro';
+import RampArt from '../../components/RampArt.astro';
 import LinkCard from '../../components/LinkCard.astro';
 import StatusBadge from '../../components/StatusBadge.astro';
 import Button from '../../components/Button.astro';
@@ -50,17 +51,25 @@ const capabilities = [
     </div>
   </section>
 
-  <Section band eyebrow="Capabilities" heading="What the Ramp does.">
+  <Section num="02" eyebrow="Capabilities" band heading="What the Ramp does.">
     <CapabilityList items={capabilities} />
   </Section>
 
-  <Section eyebrow="Pricing" heading="How it is priced." tight>
+  <Section num="03" eyebrow="Integration" white heading="One API, whatever is calling it.">
+    <p slot="lede" class="lede">
+      An app, an autonomous agent and a merchant all reach the same endpoint, and local currency
+      lands in a bank account through licensed partners.
+    </p>
+    <div class="fig" data-reveal><RampArt /></div>
+  </Section>
+
+  <Section num="04" eyebrow="Pricing" heading="How it is priced." tight>
     <p class="price" data-reveal>
       Platform fee plus a small share of volume. Talk to us for details.
     </p>
   </Section>
 
-  <Section eyebrow="Availability" heading="Where the Ramp runs.">
+  <Section num="05" eyebrow="Availability" heading="Where the Ramp runs.">
     <div class="av">
       <div class="av__group" data-reveal>
         <div class="av__head">
@@ -74,7 +83,7 @@ const capabilities = [
     </div>
   </Section>
 
-  <Section band id="multichain" eyebrow="Roadmap" heading="Ramp multichain.">
+  <Section num="06" band id="multichain" eyebrow="Roadmap" heading="Ramp multichain.">
     <p slot="lede" class="lede">
       Additional settlement networks, chosen the same way: wherever the licensed off-ramps for a
       corridor are strongest. Tell us which networks matter to you and we will come back to you
@@ -92,6 +101,10 @@ const capabilities = [
 </Base>
 
 <style>
+  .fig {
+    max-width: 820px;
+  }
+
   .lead {
     display: grid;
     gap: 18px;

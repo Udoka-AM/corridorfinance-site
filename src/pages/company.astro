@@ -51,7 +51,7 @@ import { PRINCIPLES } from '../config/content';
     <div class="grid-2">
       {
         PRINCIPLES.map((p, i) => (
-          <PrincipleTile title={p.title} body={p.body} index={i + 1} delay={i * 60} />
+          <PrincipleTile title={p.title} body={p.body} icon={p.icon} index={i + 1} delay={i * 60} />
         ))
       }
     </div>

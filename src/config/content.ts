@@ -4,18 +4,22 @@ export const PRINCIPLES = [
   {
     title: 'Exactly once',
     body: 'A retry never pays twice.',
+    icon: 'once',
   },
   {
     title: 'Books that match the chain',
     body: 'Every movement and fee is accounted for.',
+    icon: 'books',
   },
   {
     title: 'Your keys',
     body: 'Operators sign with their own signer.',
+    icon: 'keys',
   },
   {
     title: 'Licensed partners',
     body: 'Fiat moves only through regulated partners in each corridor.',
+    icon: 'licensed',
   },
 ] as const;
 

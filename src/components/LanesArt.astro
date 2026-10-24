@@ -1,0 +1,86 @@
+---
+/**
+ * Networks: the same corridor, settled on whichever network has the strongest
+ * licensed off-ramps for it. The lanes differ; the integration above them
+ * does not.
+ *
+ * Corridors shown are the ones Corridor is actually building toward, and the
+ * network on each lane follows the status in links.ts.
+ */
+import NetworkLogo from './NetworkLogo.astro';
+import { NETWORKS } from '../config/links';
+
+const lanes = [
+  { from: 'Europe', to: 'Nigeria', net: 'tempo' as const },
+  { from: 'Africa', to: 'Asia', net: 'tempo' as const },
+  { from: 'Anchor corridors', to: 'Local banks', net: 'stellar' as const },
+];
+---
+
+<figure class="art ln">
+  <svg class="art__svg" viewBox="0 0 620 300" aria-hidden="true">
+    <rect class="art__frame" x="0.5" y="0.5" width="619" height="299" />
+
+    <text class="art__k" x="28" y="36">One integration</text>
+    <line class="art__div" x1="0.5" y1="54" x2="619.5" y2="54" />
+
+    {
+      lanes.map((l, i) => {
+        const y = 92 + i * 66;
+        const n = NETWORKS[l.net];
+        const live = n.status === 'live-mainnet';
+        return (
+          <g>
+            <text class="art__s art__end" x="146" y={y + 5}>{l.from}</text>
+
+            <path class={live ? 'art__flow' : 'ln__test'} d={`M162 ${y} H402`} />
+
+            <g transform={`translate(258 ${y - 17})`}>
+              <rect class={live ? 'ln__chip ln__chip--live' : 'ln__chip'} x="0" y="0" width="108" height="34" />
+              <g transform="translate(9 9)">
+                <foreignObject width="16" height="16">
+                  <NetworkLogo network={l.net} size={16} />
+                </foreignObject>
+              </g>
+              <text class="art__k" x="32" y="21">{n.name}</text>
+            </g>
+
+            <path class="art__arrow" d={`M396 ${y - 5} 402 ${y} 396 ${y + 5}`} />
+            <text class="art__s" x="418" y={y + 5}>{l.to}</text>
+          </g>
+        );
+      })
+    }
+
+    <line class="art__div" x1="0.5" y1="258" x2="619.5" y2="258" />
+    <rect class="art__mark" x="28" y="258" width="30" height="2" />
+    <text class="art__k" x="28" y="284">Network availability varies by corridor and partner</text>
+  </svg>
+  <figcaption class="art__sr">
+    Three corridors, each settled on the network with the strongest licensed off-ramps for it,
+    reached through one integration. Network availability varies by corridor and partner.
+  </figcaption>
+</figure>
+
+<style>
+  .ln__chip {
+    fill: var(--surface-3);
+    stroke: var(--y-500);
+    stroke-width: 1;
+    stroke-dasharray: 4 3;
+  }
+
+  .ln__chip--live {
+    fill: var(--y-300);
+    stroke: var(--y-400);
+    stroke-dasharray: none;
+  }
+
+  /* A testnet lane is drawn but not travelling. */
+  .ln__test {
+    fill: none;
+    stroke: var(--y-500);
+    stroke-width: 1.5;
+    stroke-dasharray: 3 6;
+  }
+</style>

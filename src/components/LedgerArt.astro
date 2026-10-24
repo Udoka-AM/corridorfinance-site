@@ -1,0 +1,100 @@
+---
+/**
+ * Corridor Hub: one set of books reconciled against what actually settled on
+ * the chain. Two columns of rows, matched line by line, with one row shown
+ * being reconciled.
+ */
+const rows = [
+  { ref: 'CRD-4471', amt: '2,400.00', ok: true },
+  { ref: 'CRD-4472', amt: '880.50', ok: true },
+  { ref: 'CRD-4473', amt: '12,000.00', ok: true },
+  { ref: 'CRD-4474', amt: '305.25', ok: false },
+];
+---
+
+<figure class="art la">
+  <svg class="art__svg" viewBox="0 0 620 360" aria-hidden="true">
+    <rect class="art__frame" x="0.5" y="0.5" width="619" height="359" />
+
+    <text class="art__k" x="28" y="40">Your books</text>
+    <text class="art__k" x="356" y="40">On chain</text>
+    <line class="art__div" x1="0.5" y1="58" x2="619.5" y2="58" />
+
+    {
+      rows.map((r, i) => {
+        const y = 82 + i * 58;
+        return (
+          <g>
+            <rect class="art__box" x="28" y={y} width="236" height="42" />
+            <text class="art__s" x="44" y={y + 26}>{r.ref}</text>
+            <text class="art__s art__end" x="248" y={y + 26}>{r.amt}</text>
+
+            <rect class="art__box" x="356" y={y} width="236" height="42" />
+            <text class="art__s" x="372" y={y + 26}>{r.ref}</text>
+            <text class="art__s art__end" x="576" y={y + 26}>{r.amt}</text>
+
+            {r.ok ? (
+              <>
+                <path class="art__flow art__flow--slow" d={`M264 ${y + 21} H356`} />
+                <g transform={`translate(302 ${y + 13})`}>
+                  <rect class="la__ok" x="0" y="0" width="16" height="16" />
+                  <path class="la__tick" d="M4 8.4 6.8 11.2 12 5.6" />
+                </g>
+              </>
+            ) : (
+              <>
+                <path class="la__pending" d={`M264 ${y + 21} H356`} />
+                <g transform={`translate(302 ${y + 13})`}>
+                  <rect class="la__wait" x="0" y="0" width="16" height="16" />
+                  <circle class="la__dot" cx="8" cy="8" r="2.4" />
+                </g>
+              </>
+            )}
+          </g>
+        );
+      })
+    }
+
+    <line class="art__div" x1="0.5" y1="316" x2="619.5" y2="316" />
+    <rect class="art__mark" x="28" y="316" width="30" height="2" />
+    <text class="art__k" x="28" y="342">3 of 4 matched · 1 in flight · nothing unaccounted for</text>
+  </svg>
+  <figcaption class="art__sr">
+    Two columns of payout rows, your books on the left and the chain on the right, matched line by
+    line on a shared reference. Three rows are matched and one is still in flight.
+  </figcaption>
+</figure>
+
+<style>
+  .la__ok {
+    fill: var(--y-300);
+    stroke: var(--y-400);
+    stroke-width: 1;
+  }
+
+  .la__tick {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .la__wait {
+    fill: var(--surface-2);
+    stroke: var(--line-strong);
+    stroke-width: 1;
+  }
+
+  .la__dot {
+    fill: var(--ink-muted);
+    animation: blink 1.6s steps(2, end) infinite;
+  }
+
+  .la__pending {
+    fill: none;
+    stroke: var(--line-strong);
+    stroke-width: 1.5;
+    stroke-dasharray: 3 5;
+  }
+</style>

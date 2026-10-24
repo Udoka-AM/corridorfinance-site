@@ -1,16 +1,22 @@
 ---
+import PrincipleIcon from './PrincipleIcon.astro';
+
 interface Props {
   title: string;
   body: string;
   index: number;
+  icon?: 'once' | 'books' | 'keys' | 'licensed';
   delay?: number;
 }
 
-const { title, body, index, delay = 0 } = Astro.props;
+const { title, body, index, icon, delay = 0 } = Astro.props;
 ---
 
 <div class="pt" data-reveal data-reveal-delay={delay}>
-  <span class="num">{String(index).padStart(2, '0')}</span>
+  <div class="pt__top">
+    {icon && <span class="icon-box"><PrincipleIcon name={icon} size={18} /></span>}
+    <span class="num">{String(index).padStart(2, '0')}</span>
+  </div>
   <h3 class="pt__title">{title}</h3>
   <p class="pt__body">{body}</p>
 </div>
@@ -33,6 +39,13 @@ const { title, body, index, delay = 0 } = Astro.props;
     width: 26px;
     height: 2px;
     background: var(--y-300);
+  }
+
+  .pt__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
   }
 
   .pt__body {

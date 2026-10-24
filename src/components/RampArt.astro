@@ -1,0 +1,47 @@
+---
+/**
+ * Corridor Ramp: anything that can make an HTTP call -- an app, an agent, a
+ * merchant -- reaches one API, and local currency lands in a bank account.
+ */
+const callers = [
+  { label: 'App', y: 40 },
+  { label: 'Agent', y: 104 },
+  { label: 'Merchant', y: 168 },
+];
+---
+
+<figure class="art ra">
+  <svg class="art__svg" viewBox="0 0 620 300" aria-hidden="true">
+    <rect class="art__frame" x="0.5" y="0.5" width="619" height="299" />
+
+    {
+      callers.map((c) => (
+        <g>
+          <rect class="art__box" x="28" y={c.y} width="132" height="48" />
+          <text class="art__s" x="48" y={c.y + 29}>{c.label}</text>
+          <path class="art__flow" d={`M160 ${c.y + 24} H236`} />
+        </g>
+      ))
+    }
+
+    <rect class="art__box art__box--key" x="236" y="40" width="148" height="176" />
+    <text class="art__t art__mid" x="310" y="116">Corridor</text>
+    <text class="art__t art__mid" x="310" y="138">Ramp</text>
+    <text class="art__k art__mid" x="310" y="166">API · SDK</text>
+    <rect class="art__mark" x="236" y="40" width="34" height="2" />
+
+    <path class="art__flow" d="M384 128 H460" />
+
+    <rect class="art__box" x="460" y="80" width="132" height="96" />
+    <text class="art__s art__mid" x="526" y="120">Local bank</text>
+    <text class="art__s art__mid" x="526" y="142">account</text>
+
+    <line class="art__div" x1="0.5" y1="248" x2="619.5" y2="248" />
+    <rect class="art__mark" x="28" y="248" width="30" height="2" />
+    <text class="art__k" x="28" y="274">One integration · payouts and collections · licensed partners</text>
+  </svg>
+  <figcaption class="art__sr">
+    An app, an agent and a merchant all call one Corridor Ramp API and SDK, which pays out to a
+    local bank account through licensed partners.
+  </figcaption>
+</figure>

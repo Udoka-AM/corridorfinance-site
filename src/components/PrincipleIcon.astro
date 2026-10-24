@@ -1,0 +1,61 @@
+---
+/** Line icons for the four principles. 1.5px strokes, square ends. */
+interface Props {
+  name: 'once' | 'books' | 'keys' | 'licensed';
+  size?: number;
+}
+const { name, size = 22 } = Astro.props;
+---
+
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" class="pi">
+  {
+    name === 'once' && (
+      <>
+        <path class="pi__s" d="M4 12.6 9 17.6 20 6.6" />
+        <path class="pi__a" d="M4 7.2 7.2 10.4" />
+      </>
+    )
+  }
+  {
+    name === 'books' && (
+      <>
+        <path class="pi__s" d="M3.5 5.5h7v13h-7zM13.5 5.5h7v13h-7z" />
+        <path class="pi__a" d="M5.6 10.5h2.8M15.6 10.5h2.8M5.6 14h2.8M15.6 14h2.8" />
+      </>
+    )
+  }
+  {
+    name === 'keys' && (
+      <>
+        <circle class="pi__s" cx="8.5" cy="12" r="4" />
+        <path class="pi__s" d="M12.5 12h8M18 12v3.2" />
+        <path class="pi__a" d="M8.5 12h0.01" />
+      </>
+    )
+  }
+  {
+    name === 'licensed' && (
+      <>
+        <path class="pi__s" d="M12 3.5 20 7v5.6c0 4-3.3 6.9-8 7.9-4.7-1-8-3.9-8-7.9V7z" />
+        <path class="pi__a" d="M8.8 11.8 11.2 14.2 15.4 10" />
+      </>
+    )
+  }
+</svg>
+
+<style>
+  .pi__s {
+    stroke: var(--ink);
+    stroke-width: 1.5;
+    stroke-linecap: square;
+    stroke-linejoin: miter;
+    fill: none;
+  }
+
+  .pi__a {
+    stroke: var(--y-500);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    fill: none;
+  }
+</style>

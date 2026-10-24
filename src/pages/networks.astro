@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import NetworkTable from '../components/NetworkTable.astro';
+import LanesArt from '../components/LanesArt.astro';
 import NetworkCard from '../components/NetworkCard.astro';
 import MarqueeCta from '../components/MarqueeCta.astro';
 ---
@@ -24,7 +25,14 @@ import MarqueeCta from '../components/MarqueeCta.astro';
     <NetworkTable />
   </Section>
 
-  <Section band eyebrow="Detail" heading="Network by network.">
+  <Section num="02" eyebrow="Lanes" white heading="Same integration, different lane.">
+    <p slot="lede" class="lede">
+      The corridor decides the network, not the other way round.
+    </p>
+    <div class="fig" data-reveal><LanesArt /></div>
+  </Section>
+
+  <Section num="03" eyebrow="Detail" band heading="Network by network.">
     <div class="grid-3">
       <NetworkCard networks={['tempo']} />
       <NetworkCard networks={['stellar']} delay={70} />
@@ -36,6 +44,10 @@ import MarqueeCta from '../components/MarqueeCta.astro';
 </Base>
 
 <style>
+  .fig {
+    max-width: 820px;
+  }
+
   .lead {
     display: grid;
     gap: 18px;
